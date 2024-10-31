@@ -61,10 +61,10 @@ header :nth-child(3){
 
 #box2{
     padding-right: 20vw;
-<<<<<<< HEAD
-=======
 }
 
+
+/* RESPONSIVE */
 @media (max-width:700px) {
     /* Header RESPONSIVE */
     header{
@@ -98,5 +98,4 @@ header :nth-child(3){
     #box2{
         margin-left: 5vh;
     }
->>>>>>> feature/staticHTML
 }
