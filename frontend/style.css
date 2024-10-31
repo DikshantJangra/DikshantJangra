@@ -6,4 +6,59 @@ html, body{
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    font-family: sans-serif;
+    color: #575757;
+}
+#container{
+    padding: 2vw;
+}
+
+
+/* Header */
+header{
+    text-align: center;
+    /* border-bottom:2px solid #2750AD; */
+    width: 60vw;
+    border-bottom:2px solid #6B86C6;
+    margin-left: 18vw;
+}
+header h1{
+    text-transform: uppercase;
+    padding-bottom: 1vw;
+}
+header :nth-child(3){
+    padding: 0.3vw 0 0.8vw;
+}
+/* Header complete */
+
+
+/* Content */
+#content{
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    padding: 1.2vw;
+}
+#box1{
+    margin-left: 20vw;
+}
+.box{
+    padding: 2vw;
+    border-bottom: 2px dotted  #6B86C6;
+    /* height: 12vh; */
+    width: 20vw;
+}
+.box h2{
+    color: #2750AD;
+    border-bottom:2px solid #6B86C6;
+    margin-left: -1.5vw;
+    width: fit-content;
+    margin-bottom: 0.8vw;
+}
+.box p{
+    color: #575757;
+}
+
+#box2{
+    padding-right: 20vw;
 }
