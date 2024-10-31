@@ -58,6 +58,9 @@ header :nth-child(3){
 .box p{
     color: #575757;
 }
+.box a{
+    color: #575757;
+}
 
 #box2{
     padding-right: 20vw;
