@@ -21,14 +21,24 @@ header{
     width: 60vw;
     border-bottom:2px solid #6B86C6;
     margin-left: 18vw;
+    overflow: hidden;
 }
-header h1{
+/* Made .name class  to make it easier for animation of two different elementsˀ */
+header .name{
     text-transform: uppercase;
     padding-bottom: 1vw;
+    display: flex;
+    justify-content: center;
 }
+header .name h1{
+    margin-right: 1vw;
+}
+/* .name task ends - Successfull */
 header :nth-child(3){
     padding: 0.3vw 0 0.8vw;
 }
+
+
 /* Header complete */
 
 
@@ -45,7 +55,7 @@ header :nth-child(3){
 .box{
     padding: 2vw;
     border-bottom: 2px dotted  #2750AD;
-    /* height: 12vh; */
+    height: 12vh;
     width: 20vw;
 }
 .box h2{
