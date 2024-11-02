@@ -5,102 +5,38 @@
 html, body{
     height: 100%;
     width: 100%;
-    box-sizing: border-box;
-    font-family: sans-serif;
-    color: #575757;
 }
-#container{
-    padding: 2vw;
+.main{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 30% 50% 20%;
 }
-
-
-/* Header */
-header{
-    text-align: center;
-    /* border-bottom:2px solid #2750AD; */
-    width: 60vw;
-    border-bottom:2px solid #6B86C6;
-    margin-left: 18vw;
+.child1{
+    background: #000;
 }
-header h1{
-    text-transform: uppercase;
-    padding-bottom: 1vw;
+.child2{
+    background: red;
+    grid-column: 2;
+    grid-row: 1 / 4;
 }
-header :nth-child(3){
-    padding: 0.3vw 0 0.8vw;
+.child3{
+    background: GREEN;
 }
-/* Header complete */
-
-
-/* Content */
-#content{
-    display: flex;
-    /* align-items: center; */
-    justify-content: space-between;
-    padding: 1.2vw;
+.child4{
+    background: blue;
 }
-#box1{
-    margin-left: 20vw;
+.top{
+    height: 100%;
+    background-color: crimson;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 100%;
 }
-.box{
-    padding: 2vw;
-    border-bottom: 2px dotted  #2750AD;
-    /* height: 12vh; */
-    width: 20vw;
+.topLeft{
+    background-color: yellow;
 }
-.box h2{
-    color: #2750AD;
-    border-bottom:2px solid #2750AD;
-    margin-left: -1.5vw;
-    width: fit-content;
-    margin-bottom: 0.8vw;
-}
-.box p{
-    color: #575757;
-}
-.box a{
-    color: #575757;
-}
-.box li{
-    margin-top: 0.3vw;
-}
-#box2{
-    padding-right: 20vw;
-}
-
-
-/* RESPONSIVE */
-@media (max-width:700px) {
-    /* Header RESPONSIVE */
-    header{
-        margin-left: 0;
-        width: 100%;
-    }
-    header h1{
-        padding: 1vh;
-    }
-    header :nth-child(3){
-        padding: 1vh 0 1vh;
-    }
-    /* HEADER DONE */
-
-
-    /* Content RESPONSIVE */
-    #content{
-        display:block;
-    }
-    #box1{
-        margin-left: 5vh;
-    }
-    .box{
-        width: 70vw;
-        padding: 2vh;
-    }
-    .box h2{
-        margin-bottom: 2vh;
-        margin-left: -1.5vh;
-    }
-    #box2{
-        margin-left: 5vh;
-    }
+.topRight{
+    background-color: pink;
 }
