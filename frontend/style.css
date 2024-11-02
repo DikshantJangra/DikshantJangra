@@ -5,38 +5,85 @@
 html, body{
     height: 100%;
     width: 100%;
+    font-family: sans-serif;
 }
-.main{
+main{
     height: 100%;
     width: 100%;
     display: grid;
     grid-template-columns: 60% 40%;
     grid-template-rows: 30% 50% 20%;
 }
-.child1{
-    background: #000;
-}
-.child2{
-    background: red;
-    grid-column: 2;
-    grid-row: 1 / 4;
-}
-.child3{
-    background: GREEN;
-}
-.child4{
-    background: blue;
-}
 .top{
+    /* background: #fff; */
+    padding: 4vw 0 0 4vw;
+}
+.top .topLeft{
+    height: 1vw;
+    width: 1vw;
+    background: #000;
+    rotate: 45deg;
+}
+.top .topRight{
+    justify-self: flex-end;
+}
+.top .topRight li{
+    padding-top: 0.2vw;
+    list-style: none;
+    text-align: right;
+    font-size: 1.2vw;
+}
+.topClass{
     height: 100%;
-    background-color: crimson;
     display: grid;
     grid-template-columns: 70% 30%;
     grid-template-rows: 100%;
 }
-.topLeft{
-    background-color: yellow;
+.top .topRight a{
+    text-decoration: none;
+    color: #000;
 }
-.topRight{
-    background-color: pink;
+.top .topRight .active{
+    color: orangered;
+}
+.right{
+    background: red;
+    grid-column: 2;
+    grid-row: 1 / 4;
+}
+.middle{
+    padding-left: 5vw;
+}
+.middle h1{
+    font-size: 4.4vw;
+    text-transform: uppercase;
+}
+.middle :nth-child(1){
+    padding-left: 9vw;
+    color:orangered;
+}
+.middle :nth-child(2){
+    padding-left: 20vw;
+    margin-bottom: 1.5vw;
+    color: orangered;
+}
+
+.middle :nth-child(4){
+    padding-left: 16vw;
+}
+.middle :nth-child(5){
+    padding-left: 23.5vw;
+}
+.bottom{
+    padding: 4vw;
+    align-self: flex-end;
+}
+.bottom p{
+    font-size: 1vw;
+}
+.bottom .dollor{
+    color: green;
+}
+.bottom .pink{
+    color: rgb(162, 0, 168);
 }
