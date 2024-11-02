@@ -152,7 +152,6 @@ main{
 
     /* RIGHT WING responsive */
     .right{
-        background: red;
         grid-column: 1;
         grid-row: 4;
     }
