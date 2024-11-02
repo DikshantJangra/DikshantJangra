@@ -20,6 +20,10 @@ main{
 .top{
     /* background: #fff; */
     padding: 2vw 1vw 0 4vw;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 100%;
 }
 .top .topLeft{
     height: 1vw;
@@ -31,20 +35,14 @@ main{
     justify-self: flex-end;
 }
 .top .topRight li{
-    padding-top: 0.2vw;
+    padding: 0.1vw;
     list-style: none;
     text-align: right;
-    font-size: 1.2vw;
-}
-.topClass{
-    height: 100%;
-    display: grid;
-    grid-template-columns: 70% 30%;
-    grid-template-rows: 100%;
+    font-size: 1.3vmax;
 }
 .top .topRight a{
     text-decoration: none;
-    color: #000;
+    color: #00000076;
 }
 .top .topRight .active{
     color: orangered;
@@ -116,3 +114,87 @@ main{
     color: rgb(162, 0, 168);
 }
 /* BOTTOM WIND ends */
+
+
+
+
+/* RESPONSIVE DESIGN */
+@media (max-width:700px) {
+    main{
+        grid-template-columns: 100%;
+        grid-template-rows: 10% 40% 10% 40%;
+    }
+
+    /* TOP  WING RESPONSIVE*/
+    .top{
+        padding: 1.5vh 1vh 0 2vh;
+        grid-template-columns: 10% 90%;
+        grid-template-rows: 100%;
+    }
+    .top .topLeft{
+        height: 1.5vh;
+        width: 1.5vh;
+    }
+    
+    .top .topRight li{
+        padding: 0.2vh;
+        font-size: 2vh;
+        text-align: center;
+        display: inline;
+    }
+    .top .topRight{
+        justify-self: center;
+        padding-right: 5vh;
+        margin-top: 6vh;
+    }
+    /* TOP WING  RESPONSIVE ends */
+
+
+    /* RIGHT WING responsive */
+    .right{
+        background: red;
+        grid-column: 1;
+        grid-row: 4;
+    }
+    .right img{
+        object-position: 40% 40%;
+    }
+    /* RIGHT WING responsive done! */
+
+
+    /* MIDDLE WING responsive */
+    .middle{
+        margin-top: 10vh;
+        justify-self: center;
+    }
+    .middle h1{
+        font-size: 5vh;
+    }
+    .middle :nth-child(1){
+        padding-left: 2vh;
+    }
+    .middle :nth-child(2){
+        padding-left: 14.5vh;
+        margin-bottom: 3vh;
+    }
+    .middle :nth-child(3){
+        text-align: left;
+    }
+    .middle :nth-child(4){
+        padding-left: 7.5vh;
+        text-align: left;
+    }
+    .middle :nth-child(5){
+        padding-left: 7.5vh;
+    }
+    /* MIDDLE  WING responsive done! */
+
+    /* BOTTOM  WING responsive */
+    .bottom{
+        grid-row: 3;
+    }
+    .bottom p{
+        font-size: 1.5vh
+    }
+    /* BOTTOM WING  responsive done! */
+}
