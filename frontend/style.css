@@ -28,11 +28,24 @@ main{
 .top .topLeft{
     height: 1vw;
     width: 1vw;
-    background: #000;
     rotate: 45deg;
+    animation: diamond 1.5s;
+    animation-fill-mode:forwards;
+}
+
+@keyframes diamond {
+    from{
+        transform: rotate(0deg);
+        background: #fff;
+    }
+    to{
+        transform: rotate(360deg);
+        background: orangered;
+    }    
 }
 .top .topRight{
     justify-self: flex-end;
+    overflow: hidden;
 }
 .top .topRight li{
     padding: 0.1vw;
@@ -43,7 +56,20 @@ main{
 .top .topRight a{
     text-decoration: none;
     color: #00000076;
+    /* animation: nav 1.5s; */
+    /* animation-fill-mode: forwards; */
 }
+
+/* Desired animation output not acheived */
+/* @keyframes nav {
+    from{
+    margin-right: -10vw;
+    }
+    to{
+    margin-right: 0vw;
+    }
+} */
+
 .top .topRight .active{
     color: orangered;
 }
@@ -69,7 +95,9 @@ main{
     object-position: right bottom;
     /* border-radius: 8px; */
 }
+
 /* RIGHT WING ends */
+
 
 /* MIDDLE WING */
 .middle{
@@ -82,18 +110,72 @@ main{
 .middle :nth-child(1){
     padding-left: 9vw;
     color:orangered;
+    animation: D 1.5s;
+    animation-fill-mode:forwards;
 }
+@keyframes D {
+    from{
+        padding-left: 0;
+    }
+    to{
+        padding-left: 9vw;
+    }
+}
+    
+
 .middle :nth-child(2){
     padding-left: 20vw;
     margin-bottom: 1.5vw;
     color: orangered;
+    animation: J 1.5s;
+    animation-fill-mode: forwards;
 }
 
-.middle :nth-child(4){
-    padding-left: 16vw;
+@keyframes J {
+    from{
+        padding-left: 10vw;
+    }
+    to{
+        padding-left: 20.2vw;
+    }
 }
+
+.middle :nth-child(3){
+    animation: Ac 1.5s forwards;
+}
+@keyframes Ac {
+    from{
+        margin-left: -20vw;
+    }    
+    to{
+        margin-left: 0vw;
+    }
+    }
+
+.middle :nth-child(4){
+    /* padding-left: 16vw; */
+    animation: S 1.5s forwards;
+}
+@keyframes S {
+    from{
+        margin-left: -16vw;
+    }
+    to{
+        margin-left: 16vw;
+    }
+}
+
 .middle :nth-child(5){
-    padding-left: 23.5vw;
+    /* padding-left: 23.5vw; */
+    animation: E 1.5s forwards;
+}
+@keyframes E {
+    from{
+        margin-left: -23.5vw;
+    }
+    to{
+        margin-left: 23.5vw;
+    }
 }
 /* MIDDLE WING ends */
 
