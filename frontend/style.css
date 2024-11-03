@@ -205,6 +205,44 @@ main{
 }
 
 
+/* FOOTER */
+
+footer{
+    position: relative;
+    background: #fff;
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  footer .social-media{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px;
+  }
+  footer .social-media li{
+    list-style: none;
+  }
+  ion-icon {
+    color: #000;
+  }
+  footer .social-media li a{
+    font-size: 2vw;
+    color: #000;
+    display: inline-block;
+    transition: 0.5s;
+    margin: 0px 10px;
+  }
+  footer .social-media li a:hover{
+    transform: translateY(-10px);
+  }
+  /* FOOTER ends */
+
 
 
 
@@ -327,4 +365,9 @@ main{
         font-size: 1.5vh
     }
     /* BOTTOM WING  responsive done! */
+
+
+    footer .social-media li a{
+        font-size: 3vh;
+      }
 }
