@@ -183,11 +183,11 @@ main{
 
 /* BOTTOM  WING */
 .bottom{
-    padding: 4vw;
+    padding: 4vmax 0 1vmax 4vmax;
     align-self: flex-end;
 }
 .bottom p{
-    font-size: 1vw;
+    font-size: 2vw;
 }
 .bottom .dollor{
     color: green;
@@ -195,16 +195,20 @@ main{
 .bottom .pink{
     color: rgb(162, 0, 168);
 }
+.bottom .Naruto{
+    color: orangered;
+}
 /* BOTTOM WIND ends */
 
 
 /* ABOUT Section */
-#about{
-    height: 100%;
-    width: 100%;
+
+#about h2{
+    padding-left: 4vmax;
 }
-
-
+#about a{
+    color: #000;
+}
 /* FOOTER */
 
 footer{
