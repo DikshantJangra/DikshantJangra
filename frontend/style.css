@@ -209,6 +209,36 @@ main{
 #about a{
     color: #000;
 }
+
+/* TIMELINE Starts */
+#timeline{
+    padding: 5vmax 4vmax;
+}
+#timeline h2{
+    font-size: 3vmax;
+}
+#timeline .timelineBorder{
+    height: 50vmax;
+    margin-left: 2.5vmax;
+    border-left: 2px solid #000;
+}
+#timeline .timelineBorder h3{
+    margin: 2vmax 0;
+    color: orangered;
+}
+#timeline .timelineBorder .year{
+    font-size: 1.6vmax;
+    padding-left: 2.5vmax;
+    margin-top: 2vmax;
+}
+#timeline .timelineBorder .year li{
+    padding-left: 2vmax;
+    list-style: none;
+}
+
+/* TIMELINE ends */
+
+
 /* FOOTER */
 
 footer{
