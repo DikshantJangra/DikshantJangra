@@ -251,7 +251,7 @@ footer{
     justify-content: center;
     flex-direction: column;
   }
-  footer .social-media{
+  footer .social-media, .menu{
     position: relative;
     display: flex;
     flex-wrap: wrap;
@@ -259,7 +259,7 @@ footer{
     justify-content: center;
     margin: 10px 0px;
   }
-  footer .social-media li{
+  footer .social-media li, .menu li{
     list-style: none;
   }
   ion-icon {
@@ -274,6 +274,24 @@ footer{
   }
   footer .social-media li a:hover{
     transform: translateY(-10px);
+  }
+
+  footer .menu li a{
+    font-size: 1vmax;
+    color: #000;
+    display: inline-block;
+    opacity: 0.75;
+    margin: 0px 0.8vmax;
+    text-decoration: none;
+  }
+  footer .menu li a:hover{
+    opacity: 1;
+  }
+  footer p{
+    font-size: 1vmax;
+    color: #000;
+    font-weight: 800;
+    margin: 0.5vmax 0px;
   }
   /* FOOTER ends */
 
@@ -403,5 +421,12 @@ footer{
 
     footer .social-media li a{
         font-size: 3vh;
+      }
+
+      footer .menu li a{
+        font-size: 2vh;
+      }
+      footer p{
+        font-size: 1vh;
       }
 }
