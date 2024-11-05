@@ -189,7 +189,7 @@ body,html{
 
 /* PROJECTS  starts */
 #projects{
-    height: 100%;
+    min-height: 100%;
     width: 100%;
 }
 #projects .green{
@@ -202,4 +202,67 @@ body,html{
 }
 #projects .projectHead h2{
     font-size: 3.5vmax;
+}
+#projects .projectContent{
+    display: flex;
+    margin: 5vmax 8vmax 0 8vmax;
+}
+#projects .projectContent .projectInfo{
+    margin: 0.5vmax 4vmax;
+    width: 40vmax;
+}
+#projects .projectContent .projectInfo p{
+    font-size: 1.4vmax;
+}
+#projects .projectContent video{
+    height: 16vmax;
+    width: auto;
+    border-radius: 10px;
+}
+/* PROJETS ends */
+
+
+/* CONNECT WITH ME */
+#connectWithMe{
+    height: 100%;
+    width: 100%;
+}
+#connectWithMe :nth-child(1){
+    font-size: 3.5vmax;
+    text-align: center;
+    padding: 3vmax 0;
+}
+
+#connectWithMe .connect .b1 ion-icon{
+    margin-top: 5vmax;
+    font-size: 20vmax;
+    rotate: 135deg;
+    border-radius: 20px;
+}
+#connectWithMe .green{
+    color: green;
+}
+#connectWithMe .connect .b2{
+    text-align: center;
+    padding: 2vmax 0 0 8vmax;
+}
+#connectWithMe .connect{
+    display: flex;
+}
+#connectWithMe .connect .b2 .cLinks{
+    padding-top: 1vmax;
+    justify-self: flex-start;
+    display: flex;
+}
+#connectWithMe .connect .b2 .cLinks ion-icon{
+    padding: 0;
+}
+#connectWithMe .connect .b2 .cLinks a{
+    font-size: 2vmax;
+    padding-left: 2vmax;
+    padding-top: 1vmax;
+    justify-self: center;
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
 }
