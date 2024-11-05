@@ -56,7 +56,150 @@ body,html{
     color: #6B6B6B;
 }
 #main .mainBottom :nth-child(2){
-    font-size: 3vmax;
+    font-size: 3.5vmax;
     margin-top: 1.5vmax;
     color: #6B6B6B;
+}
+/* LANDING PAGE SECTION complete */
+
+
+
+
+/* ABOUT */
+#aboutMe{
+    max-height: 100%;
+    width: 100%;
+    padding-top: 10vmax;
+    position: relative;
+}
+#aboutMe .aboutMeHead img{
+    border-radius: 50%;
+}
+#aboutMe .aboutMeHead i{
+    font-size: 4vmax;
+    z-index: -1;
+    position: relative; /* Absolute positioning */
+    top: -9.5vmax; /* Align to the top */
+    left: 3.5vmax;
+    transform: translateY(-50%);
+}
+#aboutMe .aboutMeHead{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#aboutMe .aboutMeHead .aboutName{
+    border-left:2px solid #6B6B6B;
+    margin-left: 3vmax;
+}
+#aboutMe .aboutMeHead .aboutName h2{
+    font-size: 4vmax;
+    padding-left: 2vmax;
+}
+#aboutMe .aboutMeHead .aboutName :nth-child(2){
+    border-top: 0.6vmax solid black;
+    margin: 0 0 -1vmax 2vmax;
+}
+#aboutMeContent{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.5vmax;
+    margin-left: 25vmax;
+    margin-top: 4vmax;
+}
+#aboutMeContent .about{
+    color: black;
+    font-weight: 600;
+    width: 8vmax;
+    margin-right: 1vmax;
+}
+#aboutMeContent .block p{
+    color: black;
+}
+#aboutMeContent .block{
+    display: flex;
+    margin-bottom: 1vmax;
+
+}
+#aboutMeContent .green{
+    color: green;
+}
+#aboutMe .aboutBottom{
+    align-self: center;
+}
+#aboutMe #aboutMeContent .aboutDollor{
+    color: #6B6B6B;
+    font-weight: 300;
+}
+#aboutMe .aboutBottom ion-icon{
+    font-size: 3.5vmax;
+    color: #6B6B6B;
+    margin-top: 5vmax;
+    margin-right: 22vmax;
+}
+/* ABOUT ends */
+
+
+/* TECH STACK starts */
+#techStack{
+    height: 100%;
+    width: 100%;
+}
+#techStack .green{
+    color: green;
+}
+#techStack .techStackHead{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4vmax;
+}
+#techStack .techStackHead h2{
+    font-size: 3.5vmax;
+}
+
+#techStack .stackBox{
+    margin: 8vmax 0 0 8vmax;
+}
+#techStack .stackBox i,ion-icon{
+    font-size: 5vmax;
+    margin-left: 2.5vmax;
+}
+#techStack .stackBox .br{
+    height: 40vmax;
+    margin-left: 5vmax;
+    border-left: 2px solid black;
+}
+
+#techStack .stackBox .br .frontend{
+    padding-top:2vmax;
+    border-bottom: 2px solid black;
+    width: fit-content;
+}
+#techStack .stackBox .br h2{
+    font-size: 1.5vmax;
+    padding-top: 2vmax;
+    align-self: center;
+    justify-self: flex-end;
+}
+/* TECH STACK ends */
+
+
+
+/* PROJECTS  starts */
+#projects{
+    height: 100%;
+    width: 100%;
+}
+#projects .green{
+    color: green;
+}
+#projects .projectHead{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#projects .projectHead h2{
+    font-size: 3.5vmax;
 }
