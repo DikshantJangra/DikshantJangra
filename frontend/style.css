@@ -16,6 +16,7 @@ body,html{
     position: relative;
 }
 #main nav{
+    height: 10%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,7 +35,11 @@ body,html{
     height: 5.5vmax;
 }
 #main .mainCenter{
-    margin-top: 17vmax;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 #main .mainCenter h2{
     font-size: 4vmax;
@@ -43,11 +48,15 @@ body,html{
     align-self: center;
     justify-self: center;
 }
+#main .mainCenter :nth-child(2){
+    padding-bottom: 5vmax;
+}
 #main .mainBottom{
+    height: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 22vmax;
+    margin-top: -1vmax;
 }
 
 #main .mainBottom p{
@@ -57,7 +66,7 @@ body,html{
 }
 #main .mainBottom :nth-child(2){
     font-size: 3.5vmax;
-    margin-top: 1.5vmax;
+    padding-top: 1.5vmax;
     color: #6B6B6B;
 }
 /* LANDING PAGE SECTION complete */
@@ -82,6 +91,8 @@ body,html{
     top: -9.5vmax; /* Align to the top */
     left: 3.5vmax;
     transform: translateY(-50%);
+}#aboutMe .aboutMeHead img{
+    height: 12vmax;
 }
 #aboutMe .aboutMeHead{
     display: flex;
@@ -136,7 +147,8 @@ body,html{
     font-size: 3.5vmax;
     color: #6B6B6B;
     margin-top: 5vmax;
-    margin-right: 22vmax;
+    align-self: center;
+    justify-self: center;
 }
 /* ABOUT ends */
 
@@ -265,4 +277,67 @@ body,html{
     text-decoration: none;
     color: black;
     font-weight: 600;
+}
+
+@media (max-width:700px) {
+    #main nav h1{
+        font-size: 5vmax;
+        padding-top: 1vmax;
+    }
+    #main .mainCenter h2{
+        line-height: 4.5vmax;
+    }
+    #main .mainCenter :nth-child(2){
+        padding-bottom: 10vmax;
+    }
+    #main .mainBottom p{
+        text-align: center;
+        margin-bottom: 1vw;
+    }
+    /* LANDING PAGE responsiveness done! */
+
+
+    /* ABOUT responsiveness starts */
+    #aboutMe #aboutMeContent{
+        margin-left: 2vmax;
+    }
+    #aboutMe #aboutMeContent :nth-child(1) :nth-child(2){
+        margin-left: 1vmax;
+    }
+    /* ABOUT  responsiveness ends */
+
+
+    /* TECH STACK responsiveness */
+    #techStack .stackBox{
+        margin: 8vmax 0 0 -0.5vmax;
+    }
+    /* TECH STACK ends */
+
+
+    /* PROJECT responsiveness */
+    #projects .projectContent{
+        padding-top: 6vmax;
+    }
+    #projects .projectContent{
+        flex-direction: column;
+        margin: 0.5vmax 3vmax;
+    }
+    #projects .projectContent video{
+        padding-bottom: 2vmax;
+    }
+
+
+    /* CONNECT WITH ME responsive */
+
+    #connectWithMe .connect{
+        flex-direction: column;
+    }
+
+    #connectWithMe .connect .b2{
+        padding: 2vmax;
+    }
+    #connectWithMe .connect .b2 .cLinks a{
+        padding: 0;
+        justify-self: flex-end;
+    }
 }
