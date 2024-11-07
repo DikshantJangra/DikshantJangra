@@ -71,6 +71,7 @@ body,html{
     padding-top: 1.5vmax;
     color: #6B6B6B;
 }
+
 /* LANDING PAGE SECTION complete */
 
 
@@ -136,7 +137,7 @@ body,html{
 
 }
 #aboutMeContent .green{
-    color: green;
+    color: green !important;
 }
 #aboutMe .aboutBottom{
     align-self: center;
@@ -162,7 +163,7 @@ body,html{
     width: 100%;
 }
 #techStack .green{
-    color: green;
+    color: green !important;
 }
 #techStack .techStackHead{
     display: flex;
