@@ -9,6 +9,7 @@ body,html{
     width: 100%;
     box-sizing: border-box;
     font-family: sans-serif;
+    cursor: none; /* Hides the default cursor */
 }
 #main{
     height: 100%;
@@ -23,8 +24,9 @@ body,html{
     padding-top: 1vmax;
 }
 #main .makes{
-    color: green;
+    color: rgb(7, 155, 7);
 }
+
 #main nav h1{
     font-family: "Black Han Sans", sans-serif;
     color: #6B6B6B;
