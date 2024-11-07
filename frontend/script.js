@@ -1,3 +1,29 @@
+// Ensure GSAP and ScrollTrigger are registered
+gsap.registerPlugin(ScrollTrigger);
+
+// Create a ScrollTrigger to change the background and text color
+ScrollTrigger.create({
+  trigger: "#aboutMe, #aboutMe #aboutMeContent .block p",
+  start: "top 30%", // Start when the top of #aboutMe reaches 20% of the viewport height
+  onEnter: () => {
+    gsap.to("#aboutMe", {
+      backgroundColor: "white",
+      color: "black",
+      duration: 0.5,
+      ease: "power10.inOut", // Add easing here
+    });
+  },
+  onLeaveBack: () => {
+    gsap.to("#aboutMe", {
+      backgroundColor: "",
+      color: "",
+      duration: 0.5,
+      ease: "power1.inOut", // Add easing here
+      overwrite: true
+    });
+  }
+});
+
 gsap.from("#main .mainCenter :nth-child(1)",{
     x:-300,
     duration:1,
