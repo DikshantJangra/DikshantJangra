@@ -5,59 +5,84 @@ Feel free to look around, but be warned: some ideas here are still under constru
 -->
 
 <div align="center">
-<i>They say curiosity killed the cat... but it also built the future. Welcome to my lab.</i>
+
+# 👋 Welcome, Traveler
+<i>"I just love turning imagination into code."</i>
+
 </div>
 
-<img src="https://www.google.com/search?q=https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%2520and%2520Places/Rocket.png" alt="Rocket" width="25" height="25" /> My Mission
-Some say I don’t sleep… I just debug in a different timezone.
+---
 
-Others whisper that my projects have a mind of their own.
+## ➤ Who Am I?
 
-The truth? I'm just a storyteller, and my medium is code. I thrive on turning complex problems into elegant, impactful solutions.
+Some say I don’t sleep… I just debug in a different timezone.  
+Others whisper I’m building things that shouldn’t exist yet.  
 
-<img src="https://www.google.com/search?q=https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Toolbox.png" alt="Toolbox" width="25" height="25" /> The Arsenal
-<div align="center">
-<a href="https://skillicons.dev">
-<img src="https://www.google.com/search?q=https://skillicons.dev/icons%3Fi%3Dreact,nextjs,tailwind,figma,supabase,python,django,js,ts,cpp,arduino,git,github,vscode,vercel" />
-</a>
-</div>
+At the core, I’m a builder who thrives on turning complex problems into elegant, impactful solutions.
 
-<img src="https://www.google.com/search?q=https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Test%2520Tube.png" alt="Test Tube" width="25" height="25" /> Classified Experiments
-Here are a few echoes from the workshop. The most interesting projects are often the ones you can't talk about... yet.
+---
 
-🎯 [Project S2S] - A peer-to-peer platform designed to make academic doubt-solving feel like magic.
+## ➤ My Weapons of Choice
 
-🧭 [Project Chimera] [STATUS: CONFIDENTIAL] - An experimental venture blurring the lines between... well, you'll see. 👀
-
-⚡ The Archives - More public-facing experiments are pinned below. Proceed with caution.
-
-<img src="https://www.google.com/search?q=https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Chart%2520Increasing.png" alt="Chart Increasing" width="25" height="25" /> Data Footprint
 <div align="center">
 
+[![My Skills](https://skillicons.dev/icons?i=react,nextjs,tailwind,figma,supabase,python,django,js,ts,cpp,arduino,git,github,vscode,vercel)](https://skillicons.dev)
+
 </div>
 
-<img src="https://www.google.com/search?q=https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Shushing%2520Face.png" alt="Shushing Face" width="25" height="25" /> Leave a Trace
-Connect with me where the ideas flow freely.
+---
+
+## ➤ Featured Creations
+
+- 🚀 **Student-to-Student Connect (S2S App)** — A peer-to-peer platform making doubt-solving feel like magic.  
+- 🔮 **Something is Cooking...** — An experimental venture that’s not quite ready for the world.  
+- 📂 **More in The Archives** — Check my pinned repositories below for other selected highlights.  
+
+---
+
+## ➤ Stats That Speak
 
 <div align="center">
-<a href="https://www.google.com/search?q=https://linkedin.com/in/YOUR_USERNAME" target="_blank">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/LinkedIn-%25230077B5.svg%3Fstyle%3Dfor-the-badge%26logo%3Dlinkedin%26logoColor%3Dwhite" alt="LinkedIn">
-</a>
-<a href="https://twitter.com/YOUR_USERNAME" target="_blank">
-<img src="https://www.google.com/search?q=https://img.shields.io/badge/Twitter-%25231DA1F2.svg%3Fstyle%3Dfor-the-badge%26logo%3DTwitter%26logoColor%3Dwhite" alt="Twitter">
-</a>
+
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=dikshantjangra&show_icons=true&theme=radical&hide_border=true)  
+![Streak](https://streak-stats.demolab.com?user=dikshantjangra&theme=radical&hide_border=true)  
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=dikshantjangra&layout=compact&theme=radical&hide_border=true)
+
 </div>
+
+---
+
+## ➤ Connect with Me
+
+<div align="center">
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/dikshantjangra)  
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2.svg?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/YOUR_USERNAME)
+
+</div>
+
+---
 
 <details>
-<summary>Click here for one last secret...</summary>
+<summary>🕵️ Want to know a secret?</summary>
 
-You found me.
+You found it. Nice.  
 
-The riddle was never about the answer.
-It was about the curiosity to look for it.
+Here’s a tiny riddle:  
 
-That's what drives everything I build.
+"I start with code, end with impact — what am I?"
 
-Keep exploring.
+yaml
+Copy code
+
+(Hint: The answer hides in the projects I build.)
 
 </details>
+
+---
+
+<div align="center">
+
+✨ *Pinned repos contain curated work — hover, click, discover.* ✨  
+
+</div>
