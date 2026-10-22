@@ -1,4 +1,4 @@
-// Renders dist/resume/ to dist/resume.pdf with headless Chromium, serving files straight from dist (no server).
+// Renders dist/resume/ to public/resume.pdf (committed; Cloudflare's build image has no Chromium) with headless Chromium, serving files straight from dist (no server).
 import { readFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 import { chromium } from '@playwright/test';
@@ -18,6 +18,6 @@ await page.route('**/*', async (route) => {
 });
 await page.goto('http://local/resume/');
 await page.evaluate(() => document.fonts.ready);
-await page.pdf({ path: 'dist/resume.pdf', format: 'A4', printBackground: true, preferCSSPageSize: true });
+await page.pdf({ path: 'public/resume.pdf', format: 'A4', printBackground: true, preferCSSPageSize: true });
 await browser.close();
-console.log('dist/resume.pdf');
+console.log('public/resume.pdf. Commit it.');

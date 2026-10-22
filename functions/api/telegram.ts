@@ -11,6 +11,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const patch = parseCommand(msg.text);
   if (patch) {
     const next = { ...(await getStatus(env.STATUS)), ...patch };
+    if (!env.STATUS) return reply('KV not bound yet.');
     await env.STATUS.put('status', JSON.stringify(next));
     return reply(`Updated.\n${JSON.stringify(next, null, 2)}`);
   }

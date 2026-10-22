@@ -2,12 +2,12 @@
 import { site, now } from '../src/data.ts';
 
 export interface Env {
-  STATUS: KVNamespace;
+  STATUS?: KVNamespace; // optional bindings: the site deploys before they exist
   AI: Ai;
   TELEGRAM_SECRET: string; // webhook secret_token
   TELEGRAM_CHAT_ID: string; // only this chat may change the site
-  DB: D1Database; // guestbook
-  PRESENCE: DurableObjectNamespace; // bound from workers/presence
+  DB?: D1Database; // guestbook
+  PRESENCE?: DurableObjectNamespace; // bound from workers/presence
   GITHUB_CLIENT_ID: string;
   GITHUB_CLIENT_SECRET: string;
   SESSION_SECRET: string; // signs the guestbook login cookie
@@ -17,7 +17,8 @@ export type Status = { available: boolean; pill: string; building: string };
 
 export const DEFAULT_STATUS: Status = { available: site.available, pill: site.pill, building: now.building };
 
-export async function getStatus(kv: KVNamespace): Promise<Status> {
+export async function getStatus(kv?: KVNamespace): Promise<Status> {
+  if (!kv) return DEFAULT_STATUS;
   return { ...DEFAULT_STATUS, ...((await kv.get<Partial<Status>>('status', 'json')) ?? {}) };
 }
 
@@ -45,7 +46,8 @@ export const json = (data: unknown, status = 200) =>
 // ponytail: KV counters aren't atomic and are eventually consistent, so caps can overshoot a little under bursts. Durable Object counter if that ever matters.
 export const PER_IP_DAILY = 10;
 export const GLOBAL_DAILY = 80;
-export async function takeQuota(kv: KVNamespace, ip: string, day = new Date().toISOString().slice(0, 10), bucket = 'ask'): Promise<boolean> {
+export async function takeQuota(kv: KVNamespace | undefined, ip: string, day = new Date().toISOString().slice(0, 10), bucket = 'ask'): Promise<boolean> {
+  if (!kv) return false; // no KV means no caps, so AI stays off
   const keys = [`${bucket}:${day}:${ip}`, `${bucket}:${day}:all`];
   const [mine, all] = await Promise.all(keys.map(async (k) => Number(await kv.get(k)) || 0));
   if (mine >= PER_IP_DAILY || all >= GLOBAL_DAILY) return false;

@@ -14,6 +14,7 @@ const store = new Map<string, string>();
 const kv = { get: async (k: string) => store.get(k) ?? null, put: async (k: string, v: string) => void store.set(k, v) } as unknown as KVNamespace;
 for (let i = 0; i < PER_IP_DAILY; i++) assert.equal(await takeQuota(kv, 'a', 'd'), true);
 assert.equal(await takeQuota(kv, 'a', 'd'), false, 'per-IP cap');
+assert.equal(await takeQuota(undefined, 'a', 'd'), false, 'no KV fails closed');
 for (let ip = 0; ip < GLOBAL_DAILY; ip++) await takeQuota(kv, `ip${ip}`, 'd');
 assert.equal(Number(store.get('ask:d:all')), GLOBAL_DAILY, 'global cap');
 

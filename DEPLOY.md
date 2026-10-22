@@ -8,6 +8,7 @@ npm run dev        # page only (no /api, /mcp)
 npm test           # Telegram command parsing + Ask DJ quota caps
 npm run preview    # build + wrangler pages dev (functions; AI needs `wrangler login`)
 npm run deploy
+npm run resume     # after editing src/data.ts: regenerates public/resume.pdf, then commit it
 ```
 
 ## Fill in first
@@ -16,7 +17,7 @@ After changing the avatar, regenerate `public/og.png` (1200×630).
 
 ## One-time Cloudflare setup
 1. `wrangler login`
-2. `wrangler kv namespace create STATUS` → paste the id into `wrangler.toml`
+2. `wrangler kv namespace create STATUS` and `wrangler d1 create guestbook` → paste the ids into `wrangler.toml` and uncomment those blocks (until then status uses defaults, Ask DJ/demo are off, guestbook is empty)
 3. `wrangler pages project create dikshantjangra`, then `npm run deploy`
 4. Pages → Custom domains → `dikshantjangra.com`; Email Routing for `hello@`; Web Analytics on.
 5. Workers AI is bound as `AI` in `wrangler.toml` (free tier; Ask DJ caps itself at 10/IP and 80/day).
