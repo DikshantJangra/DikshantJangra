@@ -23,7 +23,7 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { overflow-x: clip; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); }
+body { overflow-x: clip; background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); }
 main, .top, footer { --pad: 16px; max-width: 640px; margin: 0 auto; padding: 0 var(--pad); }
 main { padding-bottom: 64px; }
 
