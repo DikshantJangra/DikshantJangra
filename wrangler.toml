@@ -4,6 +4,10 @@ compatibility_flags = ["nodejs_compat"]
 # Worker + static assets. `npm run build` compiles functions/ (Pages-style routes) into .worker/index.js;
 # static files in dist are served first, everything else (/api, /mcp, /auth) falls through to the Worker.
 main = ".worker/index.js"
+routes = [
+  { pattern = "dikshantjangra.me", custom_domain = true },
+  { pattern = "www.dikshantjangra.me", custom_domain = true },
+]
 
 [assets]
 directory = "dist"
