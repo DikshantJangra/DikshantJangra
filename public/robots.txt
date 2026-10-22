@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dikshantjangra.com/sitemap.xml
+Sitemap: https://dikshantjangra.me/sitemap.xml

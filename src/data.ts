@@ -2,7 +2,7 @@
 // Anything in [brackets] or an empty '' is a TODO from plan.md "What you fill in".
 
 export const site = {
-  url: 'https://dikshantjangra.com',
+  url: 'https://dikshantjangra.me',
   name: 'Dikshant Jangra',
   short: 'DJ',
   age: 21,
@@ -20,7 +20,7 @@ export const site = {
 
 export const links = {
   cal: 'https://cal.com/dikshantjangra',
-  email: 'hello@dikshantjangra.com', // TODO: set up Cloudflare Email Routing for this address
+  email: 'hello@dikshantjangra.me', // TODO: forward hello@ (MX is Namecheap email forwarding)
   whatsapp: '', // TODO: digits only with country code, e.g. 919876543210
   resume: '/resume', // printable page built from this file; swap for '/resume.pdf' if you prefer a PDF
   github: 'https://github.com/DikshantJangra',

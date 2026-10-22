@@ -20,7 +20,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   }).then((r) => r.json<{ access_token?: string }>());
   if (!tok.access_token) return back();
 
-  const user = await fetch('https://api.github.com/user', { headers: { authorization: `Bearer ${tok.access_token}`, 'user-agent': 'dikshantjangra.com' } }).then((r) => r.json<{ login?: string; avatar_url?: string }>());
+  const user = await fetch('https://api.github.com/user', { headers: { authorization: `Bearer ${tok.access_token}`, 'user-agent': 'dikshantjangra.me' } }).then((r) => r.json<{ login?: string; avatar_url?: string }>());
   if (!user.login) return back();
 
   const session = await signSession({ login: user.login, avatar: user.avatar_url ?? '', exp: Date.now() + 30 * 864e5 }, env.SESSION_SECRET);

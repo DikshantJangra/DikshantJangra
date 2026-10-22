@@ -57,4 +57,4 @@ export class Presence extends DurableObject {
   }
 }
 
-export default { fetch: () => new Response('Presence lives behind dikshantjangra.com/api/presence', { status: 404 }) };
+export default { fetch: () => new Response('Presence lives behind dikshantjangra.me/api/presence', { status: 404 }) };
