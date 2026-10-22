@@ -1,3 +1,4 @@
-import { cookie } from '../_lib.ts';
+import { cookie, safeNext } from '../_lib.ts';
 
-export const onRequestGet: PagesFunction = () => new Response(null, { status: 302, headers: { location: '/#guestbook', 'set-cookie': cookie('session', '', 0) } });
+export const onRequestGet: PagesFunction = ({ request }) =>
+  new Response(null, { status: 302, headers: { location: safeNext(new URL(request.url).searchParams.get('next')), 'set-cookie': cookie('session', '', 0) } });

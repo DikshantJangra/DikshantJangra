@@ -11,6 +11,7 @@ export interface Env {
   GITHUB_CLIENT_ID: string;
   GITHUB_CLIENT_SECRET: string;
   SESSION_SECRET: string; // signs the guestbook login cookie
+  TELEGRAM_BOT_TOKEN?: string; // lets the direct line forward messages to Telegram
 }
 
 export type Status = { available: boolean; pill: string; building: string };
@@ -84,3 +85,24 @@ export const cookie = (name: string, value: string, maxAge: number) => `${name}=
 
 // Browser POSTs must come from our own origin (cookie-authed endpoints).
 export const sameOrigin = (req: Request) => req.headers.get('origin') === new URL(req.url).origin;
+
+// Where to send someone after sign-in: same-site paths only, never //evil.com
+export function safeNext(next: string | null | undefined): string {
+  // Browsers drop tabs/newlines in URLs ("/\t/evil.com" becomes "//evil.com"), so reject them and confirm the origin stays ours.
+  if (!next || /[\u0000-\u001F\u007F\s\\]/.test(next) || !/^\/(?!\/)/.test(next)) return '/#guestbook';
+  const u = new URL(next, 'https://x.invalid');
+  return u.origin === 'https://x.invalid' ? u.pathname + u.search + u.hash : '/#guestbook';
+}
+
+// Direct line message: collapse runs of blank lines, trim, cap length. Empty string = reject.
+export const MAX_MESSAGE = 1000;
+export const cleanMessage = (v: unknown) => (typeof v === 'string' ? v.replace(/\r/g, '').replace(/\n{3,}/g, '\n\n').trim() : '');
+
+export const passNo = (n: number) => `No. ${String(n).padStart(5, '0')}`;
+
+export async function telegram(env: Env, method: string, body: object): Promise<{ ok: boolean; result?: { message_id: number } }> {
+  if (!env.TELEGRAM_BOT_TOKEN) return { ok: false };
+  return fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/${method}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
+    .then((r) => r.json<{ ok: boolean; result?: { message_id: number } }>())
+    .catch(() => ({ ok: false }));
+}

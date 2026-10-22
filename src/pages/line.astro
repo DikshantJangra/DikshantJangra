@@ -1,0 +1,63 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../line.css';
+import { site } from '../data';
+
+const title = `Direct line · ${site.name}`;
+const description = 'Claim a free numbered pass and message Dikshant Jangra directly. He reads everything.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={site.url + '/line'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#FFF8F6" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={site.url + '/og.png'} />
+    <script is:inline>
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.querySelector('meta[name=theme-color]').content = '#1A110F';
+      }
+    </script>
+  </head>
+  <body>
+    <div class="stage">
+      <aside class="intro">
+        <a class="home" href="/">← dikshantjangra.me</a>
+        <p class="kicker">Direct line</p>
+        <h1>Message me.<br />I read every one.</h1>
+        <p class="lede">Claim a free numbered pass with GitHub and you get a private thread with me. Early people get lower numbers.</p>
+        <div class="members" id="members" hidden></div>
+      </aside>
+
+      <div class="phone" id="phone">
+        <div class="statusbar" aria-hidden="true">
+          <span id="sb-time">--:--</span>
+          <span class="camera"></span>
+          <span class="sb-icons">
+            <svg viewBox="0 0 24 24"><path d="M12 21 1.4 8.4a16 16 0 0 1 21.2 0Z" /></svg>
+            <svg viewBox="0 0 24 24"><path d="M2 22h20V2Z" /></svg>
+            <svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="19" rx="2.5" /><rect x="10" y="1" width="4" height="2" rx="1" /></svg>
+          </span>
+        </div>
+        <main class="app" id="app" aria-live="polite">
+          <div class="center"><span class="spinner" aria-label="Loading"></span></div>
+        </main>
+        <div class="navbar" aria-hidden="true"><span></span></div>
+        <div class="snackbar" id="snackbar" role="status" hidden></div>
+      </div>
+    </div>
+
+    <script>
+      import '../scripts/line';
+    </script>
+  </body>
+</html>

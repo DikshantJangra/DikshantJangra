@@ -104,9 +104,14 @@ const jsonLd = {
 
     <main id="main">
       <div class="hero" id="hero">
+        <svg class="sig" viewBox="0 0 240 115" fill="none" aria-hidden="true">
+          <path style="--d:1.4s;--s:0.9s" pathLength="1" d="M18 34C26 28 34 24 42 22C40 46 35 70 28 92C26 98 21 96 23 89C30 62 58 20 90 30C114 38 106 74 78 86C62 93 44 93 31 88" />
+          <path style="--d:2.35s;--s:0.25s" pathLength="1" d="M118 34C134 27 156 22 176 24" />
+          <path style="--d:2.65s;--s:0.85s" pathLength="1" d="M154 25C152 54 146 80 133 97C123 109 104 107 106 95C108 83 132 77 156 81C182 85 208 72 232 44" />
+        </svg>
         <img class="avatar" src="/avatar.jpg" alt="Dikshant Jangra" width="64" height="64" fetchpriority="high" />
         <p class="mono muted">hey, I'm DJ</p>
-        <h1>{site.name}<svg class="verified" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12z" /><path class="tick" d="M7.5 12.2l3 3 6-6.2" /></svg></h1>
+        <h1>D<span class="i-dot">i<span class="rig" aria-hidden="true"><span class="tittle"></span></span></span>kshant Jangra<svg class="verified" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12z" /><path class="tick" d="M7.5 12.2l3 3 6-6.2" /></svg></h1>
         <p class="role">{site.age} · Software engineer · {site.location}</p>
         <p>I build <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top. Then I run it. The stack I built for <a class="fav" href="https://blazeeats.in"><img src="/logos/blazeeats.png" alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
         <p>
@@ -199,7 +204,7 @@ const jsonLd = {
         <ul class="now">
           <li><span class="mono">Building</span><span id="now-building">{now.building}</span></li>
           <li><span class="mono">Location</span><span>Haryana, India<span id="weather"></span></span></li>
-          <li hidden id="np-row"><span class="mono">Playing</span><span id="np"></span></li>
+          <li id="np-row"><span class="mono">Playing</span><span id="np">maybe <a class="fav" href="https://smashkarts.io"><img src="/logos/smashkarts.png" alt="" width="14" height="14" loading="lazy" />Smash Karts</a></span></li>
           <li><span class="mono">Shipped</span><span id="shipped">{now.lastShipped}</span></li>
         </ul>
       </section>
@@ -234,6 +239,7 @@ const jsonLd = {
         <p class="muted" style="margin-top:10px">I'm looking for SDE and AI engineering roles where I can own systems end to end. I reply within a day.</p>
         <div class="buttons">
           <a class="btn btn-primary" href={mail}>Email me</a>
+          <a class="btn btn-secondary" href="/line">Message me directly</a>
           <a class="btn btn-secondary" href={links.cal}>Book a 20-min call</a>
           <a class="btn btn-secondary" href="/resume.pdf" download>Download resume</a>
         </div>
@@ -250,7 +256,7 @@ const jsonLd = {
         </div>
         <div class="cols">
           <div><p class="label">Social</p><ul>{[['GitHub', links.github], ['LinkedIn', links.linkedin], ['X', links.x], ['Instagram', links.instagram]].filter(([, u]) => u).map(([n, u]) => <li><a href={u}>{n}</a></li>)}</ul></div>
-          <div><p class="label">Site</p><ul><li><a href="#experience">Work</a></li><li><a href="#work">Projects</a></li><li><a href="#ask">Ask DJ</a></li><li><a href={links.resume}>Resume</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+          <div><p class="label">Site</p><ul><li><a href="#experience">Work</a></li><li><a href="#work">Projects</a></li><li><a href="/line">Direct line</a></li><li><a href="#ask">Ask DJ</a></li><li><a href={links.resume}>Resume</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
           <div><p class="label">Elsewhere</p><ul>{links.dhivio && <li><a href={links.dhivio}>Dhivio</a></li>}<li><a href={links.cal}>Book a call</a></li><li><a href="/resume.pdf" download>Resume PDF</a></li></ul></div>
         </div>
       </div>
@@ -405,14 +411,13 @@ const jsonLd = {
         })
         .catch(() => {});
 
-      // Now playing (Lanyard)
+      // Now playing (Lanyard); Smash Karts stays when nothing is live
       if (links.lanyardDiscordId) {
         fetch(`https://api.lanyard.rest/v1/users/${links.lanyardDiscordId}`)
           .then((r) => r.json())
           .then(({ data }) => {
             if (!data?.spotify) return;
             $('np').textContent = `${data.spotify.song} — ${data.spotify.artist}`;
-            $('np-row').hidden = false;
           })
           .catch(() => {});
       }
@@ -450,6 +455,7 @@ const jsonLd = {
         ['Ask DJ a question', 'AI', () => $('q').focus()],
         ['Work', 'jump', go('experience')],
         ['Projects', 'jump', go('work')],
+        ['Direct line', 'message me', () => (location.href = '/line')],
         ['What I work on', 'jump', go('focus')],
         ['Contact', 'jump', go('contact')],
         ['Toggle theme', 'light / dark', () => $('theme').click()],

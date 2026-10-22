@@ -29,6 +29,13 @@ After changing the avatar, regenerate `public/og.png` (1200×630).
    `curl "https://api.telegram.org/bot<TOKEN>/setWebhook?url=https://dikshantjangra.me/api/telegram&secret_token=<TELEGRAM_SECRET>"`
 4. Commands: `/status open [text]`, `/status booked <month>`, `/now <text>`, `/show`.
 
+## Direct line (/line)
+Members sign in with GitHub, claim a numbered pass and get a private thread with you. Needs the D1 database (same one as the guestbook) with all migrations applied:
+`npx wrangler d1 migrations apply guestbook --remote`
+- Reply from the site: sign in at `/line` as `flags.githubLogin` and you get the inbox.
+- Reply from Telegram: `wrangler secret put TELEGRAM_BOT_TOKEN`. New messages are forwarded to `TELEGRAM_CHAT_ID`; reply to the forwarded message and it lands in that member's thread.
+- GitHub sign-in uses the guestbook OAuth app (`GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`, callback `https://dikshantjangra.me/auth/callback`).
+
 ## MCP
 `https://dikshantjangra.me/mcp` — read-only tools: `get_profile`, `list_projects`, `get_services`, `get_experience`, `how_to_hire`.
 Serves MCP 2026-07-28 and falls back to stateless legacy (`initialize`) for older clients.

@@ -1,13 +1,23 @@
 import { getStatus, parseCommand, HELP, json, type Env } from '../_lib.ts';
 
-// Telegram webhook. Replies go back in the webhook response body, so no bot token is needed here.
+// Telegram webhook. Replies go back in the webhook response body. Replying to a forwarded direct-line message answers that member.
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (!env.TELEGRAM_SECRET || request.headers.get('x-telegram-bot-api-secret-token') !== env.TELEGRAM_SECRET) return new Response('forbidden', { status: 403 });
-  const update = await request.json<{ message?: { chat: { id: number }; text?: string } }>().catch(() => null);
+  const update = await request.json<{ message?: { chat: { id: number }; text?: string; reply_to_message?: { message_id: number } } }>().catch(() => null);
   const msg = update?.message;
   if (!msg?.text || String(msg.chat.id) !== env.TELEGRAM_CHAT_ID) return new Response(null, { status: 200 });
 
   const reply = (text: string) => json({ method: 'sendMessage', chat_id: msg.chat.id, text });
+  const replyTo = msg.reply_to_message?.message_id;
+  if (replyTo && env.DB) {
+    const login = await env.DB.prepare('SELECT login FROM messages WHERE tg_id = ?').bind(replyTo).first<string>('login');
+    if (login) {
+      const now = Date.now();
+      await env.DB.prepare('UPDATE messages SET read_at = ? WHERE login = ? AND from_dj = 0 AND read_at IS NULL').bind(now, login).run();
+      await env.DB.prepare('INSERT INTO messages (login, from_dj, body, created_at) VALUES (?, 1, ?, ?)').bind(login, msg.text.slice(0, 4000), now).run();
+      return reply(`Sent to @${login}.`);
+    }
+  }
   const patch = parseCommand(msg.text);
   if (patch) {
     const next = { ...(await getStatus(env.STATUS)), ...patch };
