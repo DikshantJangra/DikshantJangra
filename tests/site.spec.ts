@@ -13,7 +13,7 @@ test('first screen answers who, what, how to hire', async ({ page }) => {
   await load(page);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Dikshant Jangra');
   await expect(page.getByRole('link', { name: 'View resume' })).toBeInViewport();
-  await expect(page.locator('#pill-text')).toHaveText('Open to SDE & AI internships');
+  await expect(page.locator('#pill')).toHaveCount(0);
   await expect(page.locator('#now-building')).toHaveText('Testing things');
   await expect(page.locator('#clock')).toHaveText(/Haryana · \d\d:\d\d IST/);
   const ld = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);

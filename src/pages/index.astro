@@ -67,7 +67,6 @@ const jsonLd = {
     <header class="top">
       <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark /></a>
       <div class="top-right">
-        <span class:list={['pill', 'mono', { booked: !site.available }]} id="pill"><span class="dot" aria-hidden="true"></span><span id="pill-text">{site.pill}</span></span>
         <span class="mono muted" id="here" hidden></span>
         <span class="mono muted" id="clock">Haryana · --:-- IST</span>
         <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode">◐</button>
@@ -83,7 +82,7 @@ const jsonLd = {
         <p class="role">{site.age} · Software engineer · {site.location}</p>
         <p>I build <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top. Then I run it. The stack I built for <a class="fav" href="https://blazeeats.in"><img src={fav('https://blazeeats.in')} alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
         <p>
-          I won 1st place at the Newton School MCP Challenge with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. B.Tech in CS &amp; AI at Newton School of Technology.
+          I won <span class="hl">1st place at the Newton School MCP Challenge</span> with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. B.Tech in CS &amp; AI at Newton School of Technology.
         </p>
         <div class="buttons">
           <a class="btn btn-primary" href={links.resume}>View resume</a>
@@ -309,8 +308,6 @@ const jsonLd = {
         .then((r) => (r.ok ? r.json() : null))
         .then((s) => {
           if (!s) return;
-          if (s.pill) $('pill-text').textContent = s.pill;
-          $('pill').classList.toggle('booked', s.available === false);
           if (s.building) $('now-building').textContent = s.building;
         })
         .catch(() => {});

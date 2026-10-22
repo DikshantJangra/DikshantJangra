@@ -52,10 +52,6 @@ section > .intro { color: var(--muted); margin-bottom: 20px; }
 .kbd-btn:hover { border-color: var(--text); }
 .kbd-btn kbd { min-width: 18px; height: 20px; padding: 0 4px; display: inline-grid; place-items: center; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; background: var(--surface); color: var(--muted); font: 500 11px/1 var(--mono); }
 .top-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 11px; }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--live); animation: pulse 2s ease-in-out infinite; }
-.pill.booked .dot { background: var(--muted); animation: none; }
-@keyframes pulse { 50% { opacity: 0.35; } }
 .icon-btn { background: none; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); width: 30px; height: 30px; cursor: pointer; font: 14px var(--mono); transition: color var(--ease), border-color var(--ease); }
 .icon-btn:hover { color: var(--text); border-color: var(--text); }
 
