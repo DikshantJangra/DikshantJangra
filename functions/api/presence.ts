@@ -1,7 +1,7 @@
 import { site } from '../../src/data.ts';
 import { json, type Env } from '../_lib.ts';
 
-const okHost = (h: string) => [new URL(site.url).hostname, 'localhost', '127.0.0.1', 'dikshantjangra.pages.dev'].includes(h) || h.endsWith('.dikshantjangra.pages.dev');
+const okHost = (h: string) => [new URL(site.url).hostname, 'localhost', '127.0.0.1', 'dikshantjangra.pages.dev'].includes(h) || h.endsWith('.dikshantjangra.pages.dev') || (h.startsWith('dikshantjangra.') && h.endsWith('.workers.dev'));
 
 // WebSocket + count both live in one Durable Object (workers/presence).
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {

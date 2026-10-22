@@ -1,7 +1,13 @@
 name = "dikshantjangra"
 compatibility_date = "2026-10-01"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "dist"
+# Worker + static assets. `npm run build` compiles functions/ (Pages-style routes) into .worker/index.js;
+# static files in dist are served first, everything else (/api, /mcp, /auth) falls through to the Worker.
+main = ".worker/index.js"
+
+[assets]
+directory = "dist"
+binding = "ASSETS"
 
 # Uncomment each block once the resource exists (see DEPLOY.md). Functions run without them.
 # [[kv_namespaces]]

@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "npm run build && wrangler pages dev dist",
-    "deploy": "npm run build && wrangler pages deploy dist",
+    "build": "astro build && wrangler pages functions build --outdir .worker",
+    "preview": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
     "test": "node functions/_lib.test.ts",
     "test:e2e": "playwright test",
     "lhci": "lhci autorun",

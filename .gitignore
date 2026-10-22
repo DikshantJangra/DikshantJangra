@@ -10,3 +10,4 @@ plan.md
 test-results/
 playwright-report/
 .lighthouseci/
+.worker/
