@@ -21,9 +21,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   }).then((r) => r.json<{ access_token?: string }>());
   if (!tok.access_token) return back(request);
 
-  const user = await fetch('https://api.github.com/user', { headers: { authorization: `Bearer ${tok.access_token}`, 'user-agent': 'dikshantjangra.me' } }).then((r) => r.json<{ login?: string; avatar_url?: string }>());
-  if (!user.login) return back(request);
+  const user = await fetch('https://api.github.com/user', { headers: { authorization: `Bearer ${tok.access_token}`, 'user-agent': 'dikshantjangra.me' } }).then((r) => r.json<{ id?: number; login?: string; avatar_url?: string }>());
+  if (!user.login || typeof user.id !== 'number') return back(request);
 
-  const session = await signSession({ login: user.login, avatar: user.avatar_url ?? '', exp: Date.now() + 30 * 864e5 }, env.SESSION_SECRET);
+  const session = await signSession({ id: user.id, login: user.login, avatar: user.avatar_url ?? '', exp: Date.now() + 30 * 864e5 }, env.SESSION_SECRET);
   return back(request, [cookie('session', session, 30 * 86400)]);
 };

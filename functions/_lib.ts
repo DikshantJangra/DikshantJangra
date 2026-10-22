@@ -1,5 +1,5 @@
 // Shared helpers for Pages Functions. Underscore prefix = not a route.
-import { site, now } from '../src/data.ts';
+import { site, now, flags } from '../src/data.ts';
 
 export interface Env {
   STATUS?: KVNamespace; // optional bindings: the site deploys before they exist
@@ -61,7 +61,9 @@ const b64 = (b: ArrayBuffer | Uint8Array) => btoa(String.fromCharCode(...new Uin
 const unb64 = (s: string) => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), (c) => c.charCodeAt(0));
 const hmacKey = (secret: string) => crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
 
-export type Session = { login: string; avatar: string; exp: number };
+// id = GitHub's numeric user id (stable); login and avatar are display only.
+export type Session = { id: number; login: string; avatar: string; exp: number };
+export const isOwner = (s: Session | null | undefined) => s?.id === flags.githubId;
 
 export async function signSession(s: Session, secret: string): Promise<string> {
   const body = b64(new TextEncoder().encode(JSON.stringify(s)));
@@ -75,7 +77,7 @@ export async function readSession(cookieHeader: string | null, secret: string, n
   try {
     if (!(await crypto.subtle.verify('HMAC', await hmacKey(secret), unb64(sig), new TextEncoder().encode(body)))) return null;
     const s = JSON.parse(new TextDecoder().decode(unb64(body))) as Session;
-    return s.exp > now ? s : null;
+    return s.exp > now && typeof s.id === 'number' ? s : null; // sessions from before ids were stored must sign in again
   } catch {
     return null;
   }
@@ -91,7 +93,9 @@ export function safeNext(next: string | null | undefined): string {
   // Browsers drop tabs/newlines in URLs ("/\t/evil.com" becomes "//evil.com"), so reject them and confirm the origin stays ours.
   if (!next || /[\u0000-\u001F\u007F\s\\]/.test(next) || !/^\/(?!\/)/.test(next)) return '/#guestbook';
   const u = new URL(next, 'https://x.invalid');
-  return u.origin === 'https://x.invalid' ? u.pathname + u.search + u.hash : '/#guestbook';
+  const out = u.pathname + u.search + u.hash;
+  // Check after normalising too: "/.//evil.com" becomes "//evil.com".
+  return u.origin === 'https://x.invalid' && /^\/(?![/\\])/.test(out) ? out : '/#guestbook';
 }
 
 // Direct line message: collapse runs of blank lines, trim, cap length. Empty string = reject.

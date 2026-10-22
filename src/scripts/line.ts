@@ -1,7 +1,7 @@
 // Direct line client. Screens: offline, sign in, claim pass, chat (member), inbox + thread (me).
-type Member = { login: string; avatar: string; number: number; created_at?: number };
+type Member = { id?: number; login: string; avatar: string; number: number; created_at?: number };
 type Msg = { id: number; from_dj: number; body: string; created_at: number; read_at: number | null };
-type Thread = Member & { last: string; last_from_dj: number; at: number; unread: number };
+type Thread = Member & { id: number; last: string; last_from_dj: number; at: number; unread: number };
 type Data = {
   open: boolean;
   count?: number;
@@ -188,7 +188,7 @@ function bubbles(list: HTMLElement, msgs: Msg[], mine: (m: Msg) => boolean) {
   });
 }
 
-function chat(opts: { title: Node; sub: string; lead: Node; avatar: Node; msgs: Msg[]; mine: (m: Msg) => boolean; to?: string; top?: Node; empty?: Node; menu: [string, () => void][] }) {
+function chat(opts: { title: Node; sub: string; lead: Node; avatar: Node; msgs: Msg[]; mine: (m: Msg) => boolean; to?: number; top?: Node; empty?: Node; menu: [string, () => void][] }) {
   const prevList = app.querySelector<HTMLElement>('.list');
   const nearBottom = !prevList || prevList.scrollHeight - prevList.scrollTop - prevList.clientHeight < 80;
   const draft = app.querySelector<HTMLTextAreaElement>('textarea');
@@ -300,7 +300,7 @@ function inbox(d: Data) {
               { className: t.unread ? 'unread' : '' },
               el(
                 'button',
-                { type: 'button', onclick: () => open(t.login) },
+                { type: 'button', onclick: () => open(t.id) },
                 img(t.avatar, 'avatar'),
                 el('div', { className: 't-main' }, el('div', { className: 't-top' }, el('b', {}, `@${t.login}`), el('small', {}, ago(t.at))), el('div', { className: 't-last' }, `${t.last_from_dj ? 'You: ' : ''}${t.last}`)),
                 t.unread ? el('span', { className: 'badge' }, String(t.unread)) : null,
@@ -322,14 +322,14 @@ function ownerThread(d: Data) {
     avatar: img(m.avatar, 'avatar'),
     msgs: d.messages ?? [],
     mine: (x) => !!x.from_dj,
-    to: m.login,
+    to: m.id,
     menu: [['Open GitHub profile', () => window.open(`https://github.com/${m.login}`, '_blank', 'noopener')], ['Back to inbox', close]],
   });
 }
 
-function open(login: string) {
-  view = { thread: login };
-  history.pushState(view, '', `/line?thread=${encodeURIComponent(login)}`);
+function open(id: number) {
+  view = { thread: String(id) };
+  history.pushState(view, '', `/line?thread=${id}`);
   app.replaceChildren(el('div', { className: 'center' }, el('span', { className: 'spinner' })));
   load(true);
 }

@@ -1,13 +1,10 @@
-import { flags } from '../../src/data.ts';
-import { json, readSession, sameOrigin, type Env } from '../_lib.ts';
-
-const isOwner = (login?: string) => !!login && login.toLowerCase() === flags.githubLogin.toLowerCase();
+import { isOwner, json, readSession, sameOrigin, type Env } from '../_lib.ts';
 
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   if (!env.DB) return json({ me: null, entries: [] });
   const me = await readSession(request.headers.get('cookie'), env.SESSION_SECRET);
   const { results } = await env.DB.prepare('SELECT id, login, avatar, message, created_at FROM entries ORDER BY created_at DESC LIMIT 50').all();
-  return json({ me: me && { login: me.login, avatar: me.avatar, owner: isOwner(me.login) }, entries: results });
+  return json({ me: me && { login: me.login, avatar: me.avatar, owner: isOwner(me) }, entries: results });
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
@@ -30,7 +27,7 @@ export const onRequestDelete: PagesFunction<Env> = async ({ request, env }) => {
   if (!env.DB) return json({ error: 'Guestbook is offline.' }, 503);
   if (!sameOrigin(request)) return json({ error: 'Bad origin.' }, 403);
   const me = await readSession(request.headers.get('cookie'), env.SESSION_SECRET);
-  if (!isOwner(me?.login)) return json({ error: 'Only DJ can delete notes.' }, 403);
+  if (!isOwner(me)) return json({ error: 'Only DJ can delete notes.' }, 403);
   const id = Number(new URL(request.url).searchParams.get('id'));
   if (!Number.isInteger(id)) return json({ error: 'Bad id.' }, 400);
   await env.DB.prepare('DELETE FROM entries WHERE id = ?').bind(id).run();

@@ -36,7 +36,8 @@ export const links = {
 
 export const flags = {
   panelLive: false, // flip when your own Knowledge Panel is live
-  githubLogin: 'DikshantJangra', // this GitHub user can delete guestbook entries
+  githubLogin: 'DikshantJangra', // for public GitHub data (contribution graph)
+  githubId: 76596000, // owner check uses GitHub's numeric id: usernames can be renamed and re-registered
 };
 
 export const proof = [

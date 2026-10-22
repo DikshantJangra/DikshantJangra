@@ -22,15 +22,17 @@ assert.equal(Number(store.get('ask:d:all')), GLOBAL_DAILY, 'global cap');
 assert.equal(await takeQuota(kv, 'a', 'd', 'other'), true);
 
 // Session cookie: round-trips, rejects tampering, wrong secret and expiry
-const tok = await signSession({ login: 'dj', avatar: 'x', exp: 2000 }, 's3cret');
+const tok = await signSession({ id: 1, login: 'dj', avatar: 'x', exp: 2000 }, 's3cret');
 assert.equal((await readSession(`foo=1; session=${tok}`, 's3cret', 1000))?.login, 'dj');
 assert.equal(await readSession(`session=${tok}`, 'other', 1000), null);
 assert.equal(await readSession(`session=${tok}`, 's3cret', 3000), null, 'expired');
 const [body, sig] = tok.split('.');
-const forged = btoa(JSON.stringify({ login: 'DikshantJangra', avatar: 'x', exp: 2000 })).replace(/=+$/, '');
+const forged = btoa(JSON.stringify({ id: 76596000, login: 'DikshantJangra', avatar: 'x', exp: 2000 })).replace(/=+$/, '');
 assert.equal(await readSession(`session=${forged}.${sig}`, 's3cret', 1000), null, 'forged body');
 assert.equal(await readSession(`session=${body}`, 's3cret', 1000), null, 'no sig');
 assert.equal(await readSession(null, 's3cret'), null);
+const legacy = await signSession({ login: 'dj', avatar: 'x', exp: 2000 } as never, 's3cret');
+assert.equal(await readSession(`session=${legacy}`, 's3cret', 1000), null, 'sessions without a GitHub id are rejected');
 
 // GitHub calendar: counts come from tooltips matched by id, days sorted by date
 const gh = parseContributions(`<h2>
@@ -47,6 +49,8 @@ assert.equal(safeNext('/\\evil.com'), '/#guestbook');
 assert.equal(safeNext('https://evil.com'), '/#guestbook');
 assert.equal(safeNext(null), '/#guestbook');
 assert.equal(safeNext('/\t/evil.com'), '/#guestbook');
+assert.equal(safeNext('/.//evil.com'), '/#guestbook', 'normalises to //evil.com');
+assert.equal(safeNext('/a/..//evil.com'), '/#guestbook');
 assert.equal(safeNext('/line?thread=a#x'), '/line?thread=a#x');
 
 // Direct line messages and passes

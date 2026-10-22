@@ -10,12 +10,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   const reply = (text: string) => json({ method: 'sendMessage', chat_id: msg.chat.id, text });
   const replyTo = msg.reply_to_message?.message_id;
   if (replyTo && env.DB) {
-    const login = await env.DB.prepare('SELECT login FROM messages WHERE tg_id = ?').bind(replyTo).first<string>('login');
-    if (login) {
+    const m = await env.DB.prepare('SELECT m.id, m.login FROM messages x JOIN members m ON m.id = x.member_id WHERE x.tg_id = ?').bind(replyTo).first<{ id: number; login: string }>();
+    if (m) {
       const now = Date.now();
-      await env.DB.prepare('UPDATE messages SET read_at = ? WHERE login = ? AND from_dj = 0 AND read_at IS NULL').bind(now, login).run();
-      await env.DB.prepare('INSERT INTO messages (login, from_dj, body, created_at) VALUES (?, 1, ?, ?)').bind(login, msg.text.slice(0, 4000), now).run();
-      return reply(`Sent to @${login}.`);
+      await env.DB.prepare('UPDATE messages SET read_at = ? WHERE member_id = ? AND from_dj = 0 AND read_at IS NULL').bind(now, m.id).run();
+      await env.DB.prepare('INSERT INTO messages (member_id, from_dj, body, created_at) VALUES (?, 1, ?, ?)').bind(m.id, msg.text.slice(0, 4000), now).run();
+      return reply(`Sent to @${m.login}.`);
     }
   }
   const patch = parseCommand(msg.text);
