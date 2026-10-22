@@ -126,8 +126,8 @@ export const services = [
 ];
 
 export const experience = [
-  { role: 'Founder', org: 'Dhivio', note: 'Software studio', dates: '[20XX]–Present', chips: ['Next.js', 'Node', 'PostgreSQL', 'Python'] },
-  { role: 'Freelance software engineer', org: 'Clients in India and abroad', note: '', dates: '[20XX]–Present', chips: ['Full-stack apps', 'Payments', 'Technical SEO'] },
+  { role: 'Founder', org: 'Dhivio', note: 'Software studio', dates: 'May 2026–Present', chips: ['Next.js', 'Node', 'PostgreSQL', 'Python'] },
+  { role: 'Freelance software engineer', org: 'Clients in India and abroad', note: '', dates: '2025–Present', chips: ['Full-stack apps', 'Payments', 'Technical SEO'] },
 ];
 
 export const education = [
@@ -135,13 +135,13 @@ export const education = [
   { role: 'B.Tech, Computer Science & AI', org: 'Newton School of Technology, Rishihood University', dates: '2024–2028' },
 ];
 
-export const awards = [{ role: '1st place — Newton School MCP Challenge', org: 'NewtonClaw', dates: '[month year]' }];
+export const awards = [{ role: '1st place — Newton School MCP Challenge', org: 'NewtonClaw', dates: 'Apr 2026' }];
 
-export const internshipLine = 'Open to SDE and AI engineering internships from [month] 2027.';
+export const internshipLine = 'Open to SDE and AI engineering internships from January 2027.';
 
 export const now = {
-  building: '[what you are working on this month, one line]',
-  lastShipped: '[project] · [date]',
+  building: 'BlazeBill, an offline-first restaurant POS wired into BlazeEats',
+  lastShipped: 'BlazeEats · Oct 2026',
 };
 
 // Plain-text profile for /llms.txt, Ask DJ and the MCP server.
