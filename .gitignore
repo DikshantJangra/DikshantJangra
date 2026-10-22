@@ -7,3 +7,6 @@ dist/
 .playwright-mcp/
 graft/
 plan.md
+test-results/
+playwright-report/
+.lighthouseci/

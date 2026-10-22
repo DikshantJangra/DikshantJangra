@@ -1,0 +1,121 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '../styles.css';
+import Mark from '../Mark.astro';
+import { site, links, proof, work, lab, services, experience, education, awards, internshipLine } from '../data';
+
+const host = new URL(site.url).hostname;
+const strip = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const contact = [
+  [host, site.url],
+  [links.email, `mailto:${links.email}`],
+  [strip(links.github), links.github],
+  [strip(links.linkedin), links.linkedin],
+  [site.location, ''],
+].filter(([t]) => t);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resume — {site.name}</title>
+    <meta name="description" content={`Resume of ${site.name}. ${site.oneLiner}`} />
+    <link rel="canonical" href={site.url + '/resume'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={`Resume — ${site.name}`} />
+    <meta property="og:image" content={site.url + '/og.png'} />
+    <script is:inline>
+      if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+    </script>
+    <style>
+      body { padding: 0 16px 56px; }
+      .bar { max-width: 794px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 20px 0; }
+      .bar div { display: flex; gap: 8px; }
+      .sheet { max-width: 794px; margin: 0 auto; background: #fff; color: #111; border: 1px solid var(--line); border-radius: 14px; padding: 48px 56px; font-size: 13.5px; line-height: 1.55; box-shadow: 0 10px 40px rgb(0 0 0 / 0.06); }
+      .sheet a { color: inherit; }
+      .sheet h1 { font-size: 30px; margin: 0; }
+      .sheet .lead { color: #444; margin-top: 4px; font-size: 15px; }
+      .sheet .contact { display: flex; flex-wrap: wrap; gap: 2px 14px; margin-top: 10px; color: #6b6b6b; font-size: 12.5px; }
+      .sheet h2 { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: #ff5a1f; margin: 22px 0 6px; padding-bottom: 5px; border-bottom: 1px solid #e7e7e4; }
+      .sheet .item { padding: 6px 0; break-inside: avoid; }
+      .sheet .head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+      .sheet .head strong { font-weight: 600; }
+      .sheet .when { color: #6b6b6b; font-size: 12px; white-space: nowrap; font-family: var(--mono); }
+      .sheet .sub { color: #6b6b6b; font-size: 12.5px; }
+      .sheet .proof { margin-top: 14px; padding: 8px 0; border-block: 1px solid #e7e7e4; font: 500 10.5px/1.6 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b6b; }
+      .sheet .skills { color: #333; }
+      @media (max-width: 639px) { .sheet { padding: 28px 20px; border-radius: 10px; } .sheet .head { flex-direction: column; gap: 0; } }
+      @page { size: A4; margin: 10mm 13mm; }
+      @media print {
+        html, body { background: #fff !important; padding: 0; }
+        .bar { display: none; }
+        .sheet { max-width: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
+        .sheet a { text-decoration: none; }
+        .sheet { font-size: 11.2px; line-height: 1.45; }
+        .sheet h1 { font-size: 24px; }
+        .sheet .lead { font-size: 13px; }
+        .sheet h2 { margin: 12px 0 3px; }
+        .sheet .item { padding: 2px 0; }
+        .sheet .sub, .sheet .contact { font-size: 10.6px; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="bar" aria-label="Resume actions">
+      <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark /></a>
+      <div>
+        <a class="btn btn-secondary" href="/">← Back</a>
+        <button class="btn btn-secondary" type="button" onclick="print()">Print</button>
+        <a class="btn btn-primary" href="/resume.pdf" download="Dikshant-Jangra-Resume.pdf">Download PDF</a>
+      </div>
+    </nav>
+
+    <main class="sheet" id="main">
+      <h1>{site.name}</h1>
+      <p class="lead">Software engineer. {site.oneLiner} {internshipLine}</p>
+      <p class="contact">{contact.map(([t, u]) => (u ? <a href={u}>{t}</a> : <span>{t}</span>))}</p>
+      <p class="proof">{proof.join(' · ')}</p>
+
+      <h2>Experience</h2>
+      {experience.map((e) => (
+        <div class="item">
+          <div class="head"><strong>{e.role} · {e.org}</strong><span class="when">{e.dates}</span></div>
+          <p class="sub">{[e.note, e.chips.join(', ')].filter(Boolean).join(' · ')}</p>
+        </div>
+      ))}
+
+      <h2>Projects</h2>
+      {work.map((w) => (
+        <div class="item">
+          <div class="head"><strong>{w.url ? <a href={w.url}>{w.name}</a> : w.name}</strong><span class="when">{w.tags.join(' · ')}</span></div>
+          <p>{w.oneLiner} {w.detail}</p>
+          <p class="sub">{w.stack.join(', ')}</p>
+        </div>
+      ))}
+      <div class="item"><p class="sub">Also: {lab.map((p) => `${p.name}: ${p.text.split('.')[0]}`).join('; ')}.</p></div>
+
+      <h2>Education</h2>
+      {education.map((e) => (
+        <div class="item">
+          <div class="head"><strong>{e.role}</strong><span class="when">{e.dates}</span></div>
+          <p class="sub">{e.org}</p>
+        </div>
+      ))}
+
+      <h2>Awards</h2>
+      {awards.map((a) => (
+        <div class="item">
+          <div class="head"><strong>{a.role}</strong><span class="when">{a.dates}</span></div>
+          <p class="sub">{a.org}</p>
+        </div>
+      ))}
+
+      <h2>Skills</h2>
+      <p class="skills"><strong>Languages:</strong> TypeScript, Python, SQL</p>
+      {services.map((x) => <p class="skills"><strong>{x.name}:</strong> {x.chips.join(', ')}</p>)}
+    </main>
+  </body>
+</html>

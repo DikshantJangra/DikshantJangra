@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { parseCommand, takeQuota, PER_IP_DAILY, GLOBAL_DAILY } from './_lib.ts';
+import { parseCommand, takeQuota, signSession, readSession, PER_IP_DAILY, GLOBAL_DAILY } from './_lib.ts';
+import { toCard } from './api/enrich.ts';
 
 assert.deepEqual(parseCommand('/status booked January'), { available: false, pill: 'Booked till January' });
 assert.deepEqual(parseCommand('/status open Taking 1 project for Jan'), { available: true, pill: 'Taking 1 project for Jan' });
@@ -15,5 +16,26 @@ for (let i = 0; i < PER_IP_DAILY; i++) assert.equal(await takeQuota(kv, 'a', 'd'
 assert.equal(await takeQuota(kv, 'a', 'd'), false, 'per-IP cap');
 for (let ip = 0; ip < GLOBAL_DAILY; ip++) await takeQuota(kv, `ip${ip}`, 'd');
 assert.equal(Number(store.get('ask:d:all')), GLOBAL_DAILY, 'global cap');
+
+// Separate buckets don't share quota
+assert.equal(await takeQuota(kv, 'a', 'd', 'enrich'), true);
+
+// Session cookie: round-trips, rejects tampering, wrong secret and expiry
+const tok = await signSession({ login: 'dj', avatar: 'x', exp: 2000 }, 's3cret');
+assert.equal((await readSession(`foo=1; session=${tok}`, 's3cret', 1000))?.login, 'dj');
+assert.equal(await readSession(`session=${tok}`, 'other', 1000), null);
+assert.equal(await readSession(`session=${tok}`, 's3cret', 3000), null, 'expired');
+const [body, sig] = tok.split('.');
+const forged = btoa(JSON.stringify({ login: 'DikshantJangra', avatar: 'x', exp: 2000 })).replace(/=+$/, '');
+assert.equal(await readSession(`session=${forged}.${sig}`, 's3cret', 1000), null, 'forged body');
+assert.equal(await readSession(`session=${body}`, 's3cret', 1000), null, 'no sig');
+assert.equal(await readSession(null, 's3cret'), null);
+
+// Enrichment parsing: tolerates prose around JSON, clamps fields, rejects junk
+const card = toCard('Sure! {"title":"Classmate Notebook","brand":"Classmate","category":"Paper & Notebooks","attributes":{"Pages":"172","Ruling":"Single line","x":""},"description":"A sturdy single-line notebook."} hope that helps');
+assert.deepEqual(card?.attributes, { Pages: '172', Ruling: 'Single line' });
+assert.equal(card?.brand, 'Classmate');
+assert.equal(toCard('no json here'), null);
+assert.equal(toCard('{"title":"","description":"x"}'), null);
 
 console.log('ok');

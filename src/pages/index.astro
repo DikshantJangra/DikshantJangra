@@ -1,19 +1,19 @@
 ---
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
-import '@fontsource/instrument-serif/latin-italic.css';
 import '../styles.css';
-import { site, links, proof, work, lab, services, prices, chat, compare, experience, education, awards, internshipLine, now } from '../data';
+import Mark from '../Mark.astro';
+import { site, links, flags, proof, work, lab, services, experience, education, awards, internshipLine, now } from '../data';
 
 const fav = (url: string) => `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
 const mail = `mailto:${links.email}`;
 const wa = links.whatsapp && `https://wa.me/${links.whatsapp}`;
 const textLinks = [
-  ['Resume', links.resume],
   ['GitHub', links.github],
   ['LinkedIn', links.linkedin],
   ['X', links.x],
   ['Email', mail],
+  ['Book a call', links.cal],
 ].filter(([, u]) => u);
 
 const jsonLd = {
@@ -21,12 +21,12 @@ const jsonLd = {
   '@type': 'Person',
   name: site.name,
   alternateName: site.short,
-  jobTitle: 'Software developer',
+  jobTitle: 'Software engineer',
   description: site.description,
   url: site.url,
   image: `${site.url}/avatar.jpg`,
   email: links.email,
-  address: { '@type': 'PostalAddress', addressLocality: 'Hisar', addressRegion: 'Haryana', addressCountry: 'IN' },
+  address: { '@type': 'PostalAddress', addressRegion: 'Haryana', addressCountry: 'IN' },
   worksFor: { '@type': 'Organization', name: 'Dhivio', ...(links.dhivio && { url: links.dhivio }) },
   alumniOf: { '@type': 'CollegeOrUniversity', name: education[0].org },
   award: '1st place, Newton School MCP Challenge',
@@ -52,22 +52,26 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {links.analyticsToken && <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: links.analyticsToken })} />}
     <script is:inline>
       document.documentElement.classList.add('js');
-      const t = localStorage.getItem('theme');
-      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.querySelector('meta[name=theme-color]').content = '#0E0E0E';
+      }
     </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
 
     <header class="top">
-      <a class="wordmark" href="/" aria-label="DJ, home">DJ</a>
+      <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark /></a>
       <div class="top-right">
         <span class:list={['pill', 'mono', { booked: !site.available }]} id="pill"><span class="dot" aria-hidden="true"></span><span id="pill-text">{site.pill}</span></span>
-        <span class="mono muted" id="clock">Hisar · --:-- IST</span>
+        <span class="mono muted" id="here" hidden></span>
+        <span class="mono muted" id="clock">Haryana · --:-- IST</span>
         <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode">◐</button>
-        <button class="icon-btn" id="k" type="button" aria-label="Open command menu (Ctrl+K)">⌘</button>
+        <button class="kbd-btn" id="k" type="button" aria-label="Open command menu" aria-keyshortcuts="Control+K Meta+K"><kbd id="k-mod">Ctrl</kbd><kbd>K</kbd></button>
       </div>
     </header>
 
@@ -76,14 +80,14 @@ const jsonLd = {
         <img class="avatar" src="/avatar.jpg" alt="Dikshant Jangra" width="64" height="64" fetchpriority="high" />
         <p class="mono muted">hey, I'm DJ</p>
         <h1>{site.name}</h1>
-        <p class="role">{site.age} · Builder from {site.location}</p>
-        <p>I build the software small businesses <span class="serif">run on</span> — inventory, ordering, admin panels, dashboards — and then make sure people can find them on Google.</p>
+        <p class="role">{site.age} · Software engineer · {site.location}</p>
+        <p>I build <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top. Then I run it. The stack I built for <a class="fav" href="https://blazeeats.in"><img src={fav('https://blazeeats.in')} alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
         <p>
-          Right now I take client work through <a href={links.dhivio || '#'}>Dhivio</a> and build my own products on the side. B.Tech CS &amp; AI, final academic year. Won 1st place at the Newton School MCP Challenge with <a href={links.newtonclaw || '#work'}>NewtonClaw</a>.
+          I won 1st place at the Newton School MCP Challenge with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. B.Tech in CS &amp; AI at Newton School of Technology.
         </p>
         <div class="buttons">
-          <a class="btn btn-primary" href={links.cal}>Book a 20-min call</a>
-          <a class="btn btn-secondary" href="#work">See my work ↓</a>
+          <a class="btn btn-primary" href={links.resume}>View resume</a>
+          <a class="btn btn-secondary" href={mail}>Email me</a>
         </div>
         <nav class="textlinks" aria-label="Profiles">
           {textLinks.map(([name, url]) => <a class="fav" href={url}>{url.startsWith('http') && <img src={fav(url)} alt="" width="14" height="14" loading="lazy" />}{name}</a>)}
@@ -93,12 +97,12 @@ const jsonLd = {
 
       <section id="work">
         <p class="label">Work</p>
-        <p class="intro">Things I've built and I'm building. Real businesses, real constraints.</p>
+        <p class="intro">Shipped and running, with real users, real money and real constraints.</p>
         <ul class="rows">
           {work.map((w) => (
             <li>
               <a class="row" href={w.url || undefined}>
-                <span class="logo" aria-hidden="true">{w.name[0]}</span>
+                <span class="logo" aria-hidden="true">{w.url ? <img src={fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
                 <div>
                   <div class="row-head"><strong>{w.name}</strong>{w.tags.map((t) => <span class:list={['tag', t]}>{t}</span>)}</div>
                   <p>{w.oneLiner}</p>
@@ -112,6 +116,19 @@ const jsonLd = {
         </ul>
       </section>
 
+      <section id="demo" class="ask">
+        <p class="label">Try it</p>
+        <h2>Watch a product listing build itself.</h2>
+        <p class="intro">A small live version of the pipeline behind the 24,000-SKU catalog. Type a messy product name and get back a clean, structured listing.</p>
+        <form id="demo-form">
+          <label class="skip" for="product">Product name</label>
+          <input id="product" name="product" maxlength="80" placeholder="classmate notebook 172 pg single line" autocomplete="off" required />
+          <button class="btn btn-primary" type="submit">Enrich</button>
+        </form>
+        <ul class="steps mono" id="demo-steps" aria-live="polite"></ul>
+        <div class="card demo-card" id="demo-card" hidden></div>
+      </section>
+
       <section id="lab">
         <p class="label">Lab</p>
         <p class="intro">Smaller things and experiments.</p>
@@ -120,9 +137,9 @@ const jsonLd = {
         </ul>
       </section>
 
-      <section id="services">
-        <p class="label">Services</p>
-        <h2>What I can build for you</h2>
+      <section id="focus">
+        <p class="label">What I work on</p>
+        <h2>Three layers, one engineer.</h2>
         <div class="stack">
           {services.map((s) => (
             <div class="card">
@@ -132,28 +149,7 @@ const jsonLd = {
             </div>
           ))}
         </div>
-        <p class="prices">{prices.join(' · ')}</p>
-        <p class="meta"><a href={links.dhivio || '#'}>Bigger team needed? That's Dhivio →</a></p>
-      </section>
-
-      <section id="how">
-        <p class="label">How it works</p>
-        <h2>No forms. One chat thread.</h2>
-        <div class="card chat">
-          {chat.map((m) => <p class:list={['bubble', m.who]}><span class="mono">{m.step ? `${m.step} · ` : ''}{m.who === 'you' ? 'You' : 'DJ'}</span>{m.text}</p>)}
-        </div>
-      </section>
-
-      <section id="compare">
-        <h2>Same brief. Different builder.</h2>
-        <div class="compare">
-          <div class="card them"><p class="label">Typical agency</p><ul>{compare.map(([a]) => <li>{a}</li>)}</ul></div>
-          <div class="card me">
-            <p class="label">Me</p>
-            <ul>{compare.map(([, b]) => <li>{b}</li>)}</ul>
-            <a class="btn btn-primary" href={links.cal}>Pick this one →</a>
-          </div>
-        </div>
+        {flags.panelLive && <p class="meta" style="margin-top:16px">Search my name: that Knowledge Panel is my work too.</p>}
       </section>
 
       <section id="experience">
@@ -171,14 +167,14 @@ const jsonLd = {
         <ul class="xp">{education.map((e) => <li><div class="xp-head"><strong>{e.role}</strong><span class="meta">{e.dates}</span></div><p class="meta">{e.org}</p></li>)}</ul>
         <p class="label">Awards</p>
         <ul class="xp">{awards.map((a) => <li><div class="xp-head"><strong>{a.role}</strong><span class="meta">{a.dates}</span></div><p class="meta">{a.org}</p></li>)}</ul>
-        <p class="meta" style="margin-top:16px">{internshipLine} {links.resume && <a href={links.resume}>Resume →</a>}</p>
+        <p class="meta" style="margin-top:16px">{internshipLine} <a href={links.resume}>Resume →</a></p>
       </section>
 
       <section id="now">
         <p class="label">Now <span class="muted">· updated monthly</span></p>
         <ul class="now">
           <li><span class="mono">Building</span><span id="now-building">{now.building}</span></li>
-          <li><span class="mono">Location</span><span>Hisar, Haryana<span id="weather"></span></span></li>
+          <li><span class="mono">Location</span><span>Haryana, India<span id="weather"></span></span></li>
           <li hidden id="np-row"><span class="mono">Playing</span><span id="np"></span></li>
           <li><span class="mono">Shipped</span><span id="shipped">{now.lastShipped}</span></li>
         </ul>
@@ -189,37 +185,61 @@ const jsonLd = {
         <h2>Ask anything about my work.</h2>
         <form id="ask-form">
           <label class="skip" for="q">Your question</label>
-          <input id="q" name="q" maxlength="300" placeholder="Can you build a POS for my café?" autocomplete="off" required />
+          <input id="q" name="q" maxlength="300" placeholder="What's the hardest system you've built?" autocomplete="off" required />
           <button class="btn btn-primary" type="submit">Ask</button>
         </form>
         <p class="answer" id="answer" aria-live="polite"></p>
         <p class="mcp muted">Using Claude? Add <code>{site.url}/mcp</code> as an MCP server and ask it about me.</p>
       </section>
 
+      <section id="guestbook" class="guestbook">
+        <p class="label">Guestbook</p>
+        <h2>Leave a note.</h2>
+        <div id="gb-auth"></div>
+        <form id="gb-form" hidden>
+          <label class="skip" for="gb-msg">Your note</label>
+          <input id="gb-msg" name="message" maxlength="280" placeholder="Say hi, share a thought…" autocomplete="off" required />
+          <button class="btn btn-primary" type="submit">Sign</button>
+        </form>
+        <p class="meta" id="gb-err" aria-live="polite"></p>
+        <ul class="gb" id="gb-list"></ul>
+      </section>
+
       <section id="contact" class="cta">
-        <h2>Got a problem spreadsheets can't handle anymore?</h2>
-        <p class="muted" style="margin-top:10px">Tell me what's breaking. I'll reply within a day with how I'd fix it — even if you don't hire me.</p>
+        <h2>Hiring engineers who ship?</h2>
+        <p class="muted" style="margin-top:10px">I'm looking for SDE and AI engineering roles where I can own systems end to end. I reply within a day.</p>
         <div class="buttons">
-          <a class="btn btn-primary" href={links.cal}>Book a 20-min call</a>
-          {wa && <a class="btn btn-secondary" href={wa}>WhatsApp me</a>}
+          <a class="btn btn-primary" href={mail}>Email me</a>
+          <a class="btn btn-secondary" href={links.cal}>Book a 20-min call</a>
+          <a class="btn btn-secondary" href="/resume.pdf" download>Download resume</a>
         </div>
-        <p class="meta" style="margin-top:14px"><a href={mail}>{links.email}</a></p>
+        <p class="meta" style="margin-top:14px">Need something built instead? I take a few freelance projects a year{links.dhivio && <>, or through <a href={links.dhivio}>Dhivio</a></>}. {wa && <a href={wa}>WhatsApp me</a>}</p>
       </section>
     </main>
 
     <footer>
+      <div class="foot-brand">
+        <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark size={24} /></a>
+        <p class="muted">Software engineer. I build systems that <span class="hl">people use every day</span>, from the database to the AI agent. Based in {site.location}.</p>
+      </div>
       <div class="cols">
         <div><p class="label">Social</p><ul>{[['GitHub', links.github], ['LinkedIn', links.linkedin], ['X', links.x], ['Instagram', links.instagram]].filter(([, u]) => u).map(([n, u]) => <li><a href={u}>{n}</a></li>)}</ul></div>
-        <div><p class="label">Site</p><ul><li><a href="#work">Work</a></li><li><a href="#services">Services</a></li>{links.resume && <li><a href={links.resume}>Resume</a></li>}<li><a href="/llms.txt">llms.txt</a></li></ul></div>
+        <div><p class="label">Site</p><ul><li><a href="#work">Work</a></li><li><a href="#focus">What I work on</a></li><li><a href={links.resume}>Resume</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
         <div><p class="label">Elsewhere</p><ul>{links.dhivio && <li><a href={links.dhivio}>Dhivio</a></li>}<li><a href={links.cal}>Book a call</a></li></ul></div>
       </div>
       <div class="bottom">
         <span>© 2026 {site.name} · Built in {site.location} · Updated {site.updated}</span>
+        <a href="/resume.pdf" download>Resume (PDF)</a>
         <button class="useless" id="useless" type="button">Don't press this</button>
       </div>
     </footer>
 
     {wa && <a class="wa" id="wa" href={wa} aria-label="WhatsApp me">WhatsApp</a>}
+
+    <dialog id="term" class="term" aria-label="Terminal">
+      <pre id="term-out"></pre>
+      <label class="term-line"><span aria-hidden="true">$</span><input id="term-in" autocomplete="off" spellcheck="false" aria-label="Command" /></label>
+    </dialog>
 
     <dialog id="palette" aria-label="Command menu">
       <input id="cmd-q" placeholder="Type a command…" autocomplete="off" role="combobox" aria-controls="cmd-list" aria-expanded="true" />
@@ -228,19 +248,46 @@ const jsonLd = {
 
     <script>
       import { site, links } from '../data';
+      import { annotate } from 'rough-notation';
+      import { toggleSound, blip } from '../scripts/sound';
+      import { openTerminal } from '../scripts/terminal';
+      import '../scripts/presence';
+      import '../scripts/guestbook';
+      import '../scripts/enrich';
       const $ = (id: string) => document.getElementById(id)!;
 
       // Clock
       const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
-      const tick = () => ($('clock').textContent = `Hisar · ${fmt.format(new Date())} IST`);
+      const tick = () => ($('clock').textContent = `Haryana · ${fmt.format(new Date())} IST`);
       tick();
       setInterval(tick, 1000);
 
       // Theme, with a View Transition where supported
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       $('theme').onclick = () => {
-        const flip = () => localStorage.setItem('theme', document.documentElement.classList.toggle('dark') ? 'dark' : 'light');
-        document.startViewTransition ? document.startViewTransition(flip) : flip();
+        const flip = () => {
+          const dark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', dark ? 'dark' : 'light');
+          document.querySelector<HTMLMetaElement>('meta[name=theme-color]')!.content = dark ? '#0E0E0E' : '#FBFBFA';
+        };
+        if (!document.startViewTransition || reduce) return flip();
+        const r = $('theme').getBoundingClientRect();
+        const [x, y] = [r.x + r.width / 2, r.y + r.height / 2];
+        const R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        document.startViewTransition(flip).ready.then(() =>
+          document.documentElement.animate({ clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${R}px at ${x}px ${y}px)`] }, { duration: 450, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }),
+        );
       };
+
+      // Hand-drawn highlights, drawn once when visible
+      const hlIo = new IntersectionObserver((es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          hlIo.unobserve(e.target);
+          annotate(e.target as HTMLElement, { type: 'underline', color: '#FF5A1F', strokeWidth: 2, padding: 1, multiline: true, animate: !reduce, animationDuration: 700 }).show();
+        }),
+      { rootMargin: '0px 0px -15% 0px' });
+      document.querySelectorAll('.hl').forEach((h) => hlIo.observe(h));
 
       // Reveal sections once
       const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { rootMargin: '0px 0px -10% 0px' });
@@ -321,21 +368,26 @@ const jsonLd = {
         btn.disabled = false;
       };
 
-      // Command palette
+      // Command palette. Label shows ⌘ on Apple devices, Ctrl elsewhere.
+      if (/Mac|iPhone|iPad/.test(navigator.platform)) $('k-mod').textContent = '⌘';
       const dlg = $('palette') as HTMLDialogElement;
       const input = $('cmd-q') as HTMLInputElement;
       const list = $('cmd-list');
       const go = (id: string) => () => document.getElementById(id)?.scrollIntoView();
       const cmds: [string, string, () => void][] = [
+        ['Open resume', 'PDF', () => (location.href = links.resume)],
         ['Book a call', 'cal.com', () => (location.href = links.cal)],
         ['Copy email', links.email, () => navigator.clipboard.writeText(links.email)],
         ['Ask DJ a question', 'AI', () => $('q').focus()],
         ['Work', 'jump', go('work')],
-        ['Services', 'jump', go('services')],
-        ['How it works', 'jump', go('how')],
+        ['What I work on', 'jump', go('focus')],
         ['Experience', 'jump', go('experience')],
         ['Contact', 'jump', go('contact')],
         ['Toggle theme', 'light / dark', () => $('theme').click()],
+        ['Open terminal', 'press `', openTerminal],
+        ['Try the product demo', 'AI', () => $('product').focus()],
+        ['Guestbook', 'jump', go('guestbook')],
+        ['Toggle sounds', 'off by default', () => toggleSound()],
         ['GitHub', 'open', () => window.open(links.github)],
         ['LinkedIn', 'open', () => window.open(links.linkedin)],
         ...(links.whatsapp ? [['WhatsApp me', 'open', () => window.open(`https://wa.me/${links.whatsapp}`)] as [string, string, () => void]] : []),
@@ -371,6 +423,7 @@ const jsonLd = {
         sel = 0;
         render();
         dlg.showModal();
+        blip(520);
       };
       $('k').onclick = open;
       input.oninput = () => ((sel = 0), render());

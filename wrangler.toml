@@ -7,5 +7,17 @@ pages_build_output_dir = "dist"
 binding = "STATUS"
 id = "REPLACE_WITH_KV_ID" # wrangler kv namespace create STATUS
 
+[[d1_databases]]
+binding = "DB"
+database_name = "guestbook"
+database_id = "REPLACE_WITH_D1_ID" # wrangler d1 create guestbook
+migrations_dir = "migrations"
+
+# Deploy workers/presence first; Pages binds to its Durable Object.
+[[durable_objects.bindings]]
+name = "PRESENCE"
+class_name = "Presence"
+script_name = "dikshantjangra-presence"
+
 [ai]
 binding = "AI"

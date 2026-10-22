@@ -4,10 +4,13 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/resume-pdf.mjs",
     "preview": "npm run build && wrangler pages dev dist",
     "deploy": "npm run build && wrangler pages deploy dist",
-    "test": "node functions/_lib.test.ts"
+    "test": "node functions/_lib.test.ts",
+    "test:e2e": "playwright test",
+    "lhci": "lhci autorun",
+    "deploy:presence": "wrangler deploy -c workers/presence/wrangler.toml"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
@@ -15,10 +18,16 @@
     "@fontsource/instrument-serif": "^5.3.0",
     "@modelcontextprotocol/server": "^2.3.1",
     "astro": "^7.4.2",
+    "rough-notation": "^0.5.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20261022.1",
+    "@fontsource/geist": "^5.3.0",
+    "@playwright/test": "^1.64.1",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/node": "^24.19.2",
+    "satori": "^0.63.2",
     "wrangler": "^4.151.3"
   }
 }
