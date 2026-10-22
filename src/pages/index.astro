@@ -1,0 +1,394 @@
+---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
+import '@fontsource/instrument-serif/latin-italic.css';
+import '../styles.css';
+import { site, links, proof, work, lab, services, prices, chat, compare, experience, education, awards, internshipLine, now } from '../data';
+
+const fav = (url: string) => `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
+const mail = `mailto:${links.email}`;
+const wa = links.whatsapp && `https://wa.me/${links.whatsapp}`;
+const textLinks = [
+  ['Resume', links.resume],
+  ['GitHub', links.github],
+  ['LinkedIn', links.linkedin],
+  ['X', links.x],
+  ['Email', mail],
+].filter(([, u]) => u);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  alternateName: site.short,
+  jobTitle: 'Software developer',
+  description: site.description,
+  url: site.url,
+  image: `${site.url}/avatar.jpg`,
+  email: links.email,
+  address: { '@type': 'PostalAddress', addressLocality: 'Hisar', addressRegion: 'Haryana', addressCountry: 'IN' },
+  worksFor: { '@type': 'Organization', name: 'Dhivio', ...(links.dhivio && { url: links.dhivio }) },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: education[0].org },
+  award: '1st place, Newton School MCP Challenge',
+  sameAs: [links.github, links.linkedin, links.x, links.instagram, links.wikidata, links.dhivio].filter(Boolean),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.title}</title>
+    <meta name="description" content={site.description} />
+    <link rel="canonical" href={site.url + '/'} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#FBFBFA" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={site.url + '/'} />
+    <meta property="og:title" content={site.title} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:image" content={site.url + '/og.png'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      const t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="top">
+      <a class="wordmark" href="/" aria-label="DJ, home">DJ</a>
+      <div class="top-right">
+        <span class:list={['pill', 'mono', { booked: !site.available }]} id="pill"><span class="dot" aria-hidden="true"></span><span id="pill-text">{site.pill}</span></span>
+        <span class="mono muted" id="clock">Hisar · --:-- IST</span>
+        <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode">◐</button>
+        <button class="icon-btn" id="k" type="button" aria-label="Open command menu (Ctrl+K)">⌘</button>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="hero" id="hero">
+        <img class="avatar" src="/avatar.jpg" alt="Dikshant Jangra" width="64" height="64" fetchpriority="high" />
+        <p class="mono muted">hey, I'm DJ</p>
+        <h1>{site.name}</h1>
+        <p class="role">{site.age} · Builder from {site.location}</p>
+        <p>I build the software small businesses <span class="serif">run on</span> — inventory, ordering, admin panels, dashboards — and then make sure people can find them on Google.</p>
+        <p>
+          Right now I take client work through <a href={links.dhivio || '#'}>Dhivio</a> and build my own products on the side. B.Tech CS &amp; AI, final academic year. Won 1st place at the Newton School MCP Challenge with <a href={links.newtonclaw || '#work'}>NewtonClaw</a>.
+        </p>
+        <div class="buttons">
+          <a class="btn btn-primary" href={links.cal}>Book a 20-min call</a>
+          <a class="btn btn-secondary" href="#work">See my work ↓</a>
+        </div>
+        <nav class="textlinks" aria-label="Profiles">
+          {textLinks.map(([name, url]) => <a class="fav" href={url}>{url.startsWith('http') && <img src={fav(url)} alt="" width="14" height="14" loading="lazy" />}{name}</a>)}
+        </nav>
+        <p class="proof mono">{proof.join(' · ')}</p>
+      </div>
+
+      <section id="work">
+        <p class="label">Work</p>
+        <p class="intro">Things I've built and I'm building. Real businesses, real constraints.</p>
+        <ul class="rows">
+          {work.map((w) => (
+            <li>
+              <a class="row" href={w.url || undefined}>
+                <span class="logo" aria-hidden="true">{w.name[0]}</span>
+                <div>
+                  <div class="row-head"><strong>{w.name}</strong>{w.tags.map((t) => <span class:list={['tag', t]}>{t}</span>)}</div>
+                  <p>{w.oneLiner}</p>
+                  <p class="meta">{w.detail}</p>
+                  <div class="chips">{w.stack.map((s) => <span class="chip">{s}</span>)}</div>
+                </div>
+                {w.url && <span class="arrow" aria-hidden="true">→</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="lab">
+        <p class="label">Lab</p>
+        <p class="intro">Smaller things and experiments.</p>
+        <ul class="lab">
+          {lab.map((p) => <li><span><strong>{p.name}</strong> <span class="muted">— {p.text}</span></span><span class:list={['tag', p.tag]}>{p.tag}</span></li>)}
+        </ul>
+      </section>
+
+      <section id="services">
+        <p class="label">Services</p>
+        <h2>What I can build for you</h2>
+        <div class="stack">
+          {services.map((s) => (
+            <div class="card">
+              <h3>{s.name}</h3>
+              <p class="muted">{s.text}</p>
+              <div class="chips">{s.chips.map((c) => <span class="chip">{c}</span>)}</div>
+            </div>
+          ))}
+        </div>
+        <p class="prices">{prices.join(' · ')}</p>
+        <p class="meta"><a href={links.dhivio || '#'}>Bigger team needed? That's Dhivio →</a></p>
+      </section>
+
+      <section id="how">
+        <p class="label">How it works</p>
+        <h2>No forms. One chat thread.</h2>
+        <div class="card chat">
+          {chat.map((m) => <p class:list={['bubble', m.who]}><span class="mono">{m.step ? `${m.step} · ` : ''}{m.who === 'you' ? 'You' : 'DJ'}</span>{m.text}</p>)}
+        </div>
+      </section>
+
+      <section id="compare">
+        <h2>Same brief. Different builder.</h2>
+        <div class="compare">
+          <div class="card them"><p class="label">Typical agency</p><ul>{compare.map(([a]) => <li>{a}</li>)}</ul></div>
+          <div class="card me">
+            <p class="label">Me</p>
+            <ul>{compare.map(([, b]) => <li>{b}</li>)}</ul>
+            <a class="btn btn-primary" href={links.cal}>Pick this one →</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience">
+        <p class="label">Experience</p>
+        <ul class="xp">
+          {experience.map((e) => (
+            <li>
+              <div class="xp-head"><strong>{e.role} · {e.org}</strong><span class="meta">{e.dates}</span></div>
+              {e.note && <p class="meta">{e.note}</p>}
+              <div class="chips">{e.chips.map((c) => <span class="chip">{c}</span>)}</div>
+            </li>
+          ))}
+        </ul>
+        <p class="label">Education</p>
+        <ul class="xp">{education.map((e) => <li><div class="xp-head"><strong>{e.role}</strong><span class="meta">{e.dates}</span></div><p class="meta">{e.org}</p></li>)}</ul>
+        <p class="label">Awards</p>
+        <ul class="xp">{awards.map((a) => <li><div class="xp-head"><strong>{a.role}</strong><span class="meta">{a.dates}</span></div><p class="meta">{a.org}</p></li>)}</ul>
+        <p class="meta" style="margin-top:16px">{internshipLine} {links.resume && <a href={links.resume}>Resume →</a>}</p>
+      </section>
+
+      <section id="now">
+        <p class="label">Now <span class="muted">· updated monthly</span></p>
+        <ul class="now">
+          <li><span class="mono">Building</span><span id="now-building">{now.building}</span></li>
+          <li><span class="mono">Location</span><span>Hisar, Haryana<span id="weather"></span></span></li>
+          <li hidden id="np-row"><span class="mono">Playing</span><span id="np"></span></li>
+          <li><span class="mono">Shipped</span><span id="shipped">{now.lastShipped}</span></li>
+        </ul>
+      </section>
+
+      <section id="ask" class="ask">
+        <p class="label">Ask DJ</p>
+        <h2>Ask anything about my work.</h2>
+        <form id="ask-form">
+          <label class="skip" for="q">Your question</label>
+          <input id="q" name="q" maxlength="300" placeholder="Can you build a POS for my café?" autocomplete="off" required />
+          <button class="btn btn-primary" type="submit">Ask</button>
+        </form>
+        <p class="answer" id="answer" aria-live="polite"></p>
+        <p class="mcp muted">Using Claude? Add <code>{site.url}/mcp</code> as an MCP server and ask it about me.</p>
+      </section>
+
+      <section id="contact" class="cta">
+        <h2>Got a problem spreadsheets can't handle anymore?</h2>
+        <p class="muted" style="margin-top:10px">Tell me what's breaking. I'll reply within a day with how I'd fix it — even if you don't hire me.</p>
+        <div class="buttons">
+          <a class="btn btn-primary" href={links.cal}>Book a 20-min call</a>
+          {wa && <a class="btn btn-secondary" href={wa}>WhatsApp me</a>}
+        </div>
+        <p class="meta" style="margin-top:14px"><a href={mail}>{links.email}</a></p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="cols">
+        <div><p class="label">Social</p><ul>{[['GitHub', links.github], ['LinkedIn', links.linkedin], ['X', links.x], ['Instagram', links.instagram]].filter(([, u]) => u).map(([n, u]) => <li><a href={u}>{n}</a></li>)}</ul></div>
+        <div><p class="label">Site</p><ul><li><a href="#work">Work</a></li><li><a href="#services">Services</a></li>{links.resume && <li><a href={links.resume}>Resume</a></li>}<li><a href="/llms.txt">llms.txt</a></li></ul></div>
+        <div><p class="label">Elsewhere</p><ul>{links.dhivio && <li><a href={links.dhivio}>Dhivio</a></li>}<li><a href={links.cal}>Book a call</a></li></ul></div>
+      </div>
+      <div class="bottom">
+        <span>© 2026 {site.name} · Built in {site.location} · Updated {site.updated}</span>
+        <button class="useless" id="useless" type="button">Don't press this</button>
+      </div>
+    </footer>
+
+    {wa && <a class="wa" id="wa" href={wa} aria-label="WhatsApp me">WhatsApp</a>}
+
+    <dialog id="palette" aria-label="Command menu">
+      <input id="cmd-q" placeholder="Type a command…" autocomplete="off" role="combobox" aria-controls="cmd-list" aria-expanded="true" />
+      <ul id="cmd-list" role="listbox"></ul>
+    </dialog>
+
+    <script>
+      import { site, links } from '../data';
+      const $ = (id: string) => document.getElementById(id)!;
+
+      // Clock
+      const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
+      const tick = () => ($('clock').textContent = `Hisar · ${fmt.format(new Date())} IST`);
+      tick();
+      setInterval(tick, 1000);
+
+      // Theme, with a View Transition where supported
+      $('theme').onclick = () => {
+        const flip = () => localStorage.setItem('theme', document.documentElement.classList.toggle('dark') ? 'dark' : 'light');
+        document.startViewTransition ? document.startViewTransition(flip) : flip();
+      };
+
+      // Reveal sections once
+      const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll('section').forEach((s) => io.observe(s));
+
+      // Floating WhatsApp after hero leaves
+      const wa = document.getElementById('wa');
+      if (wa) new IntersectionObserver(([e]) => wa.classList.toggle('show', !e.isIntersecting)).observe($('hero'));
+
+      // Useless button
+      $('useless').onclick = (e) => {
+        const b = e.currentTarget as HTMLButtonElement;
+        b.classList.add('pressed');
+        b.textContent = 'Told you.';
+      };
+
+      // Live status from KV (set via Telegram)
+      fetch('/api/status')
+        .then((r) => (r.ok ? r.json() : null))
+        .then((s) => {
+          if (!s) return;
+          if (s.pill) $('pill-text').textContent = s.pill;
+          $('pill').classList.toggle('booked', s.available === false);
+          if (s.building) $('now-building').textContent = s.building;
+        })
+        .catch(() => {});
+
+      // Weather (Open-Meteo, no key)
+      const sky = (c: number) => (c === 0 ? 'clear' : c < 4 ? 'cloudy' : c < 50 ? 'hazy' : c < 70 ? 'rain' : c < 80 ? 'snow' : 'storms');
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${site.coords.lat}&longitude=${site.coords.lon}&current=temperature_2m,weather_code`)
+        .then((r) => r.json())
+        .then(({ current: c }) => ($('weather').textContent = ` · ${Math.round(c.temperature_2m)}°C, ${sky(c.weather_code)}`))
+        .catch(() => {});
+
+      // Last shipped: most recently pushed public repo (skipping this site's repo)
+      const ago = (d: string) => {
+        const m = (Date.now() - Date.parse(d)) / 60000;
+        return m < 60 ? `${Math.max(1, Math.round(m))}m ago` : m < 1440 ? `${Math.round(m / 60)}h ago` : `${Math.round(m / 1440)}d ago`;
+      };
+      const gh = links.github.split('/').pop()!;
+      fetch(`https://api.github.com/users/${gh}/repos?sort=pushed&per_page=5`)
+        .then((r) => r.json())
+        .then((repos) => {
+          const r = Array.isArray(repos) && repos.find((x) => x.name.toLowerCase() !== gh.toLowerCase());
+          if (r) $('shipped').textContent = `${r.name} · ${ago(r.pushed_at)}`;
+        })
+        .catch(() => {});
+
+      // Now playing (Lanyard)
+      if (links.lanyardDiscordId) {
+        fetch(`https://api.lanyard.rest/v1/users/${links.lanyardDiscordId}`)
+          .then((r) => r.json())
+          .then(({ data }) => {
+            if (!data?.spotify) return;
+            $('np').textContent = `${data.spotify.song} — ${data.spotify.artist}`;
+            $('np-row').hidden = false;
+          })
+          .catch(() => {});
+      }
+
+      // Ask DJ
+      $('ask-form').onsubmit = async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget as HTMLFormElement;
+        const q = (form.elements.namedItem('q') as HTMLInputElement).value.trim();
+        const out = $('answer');
+        const btn = form.querySelector('button')!;
+        if (!q) return;
+        btn.disabled = true;
+        out.textContent = 'Thinking…';
+        try {
+          const r = await fetch('/api/ask', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ q }) });
+          const d = await r.json().catch(() => ({}));
+          out.textContent = d.answer || d.error || 'Something broke. Email me instead.';
+        } catch {
+          out.textContent = 'Something broke. Email me instead.';
+        }
+        btn.disabled = false;
+      };
+
+      // Command palette
+      const dlg = $('palette') as HTMLDialogElement;
+      const input = $('cmd-q') as HTMLInputElement;
+      const list = $('cmd-list');
+      const go = (id: string) => () => document.getElementById(id)?.scrollIntoView();
+      const cmds: [string, string, () => void][] = [
+        ['Book a call', 'cal.com', () => (location.href = links.cal)],
+        ['Copy email', links.email, () => navigator.clipboard.writeText(links.email)],
+        ['Ask DJ a question', 'AI', () => $('q').focus()],
+        ['Work', 'jump', go('work')],
+        ['Services', 'jump', go('services')],
+        ['How it works', 'jump', go('how')],
+        ['Experience', 'jump', go('experience')],
+        ['Contact', 'jump', go('contact')],
+        ['Toggle theme', 'light / dark', () => $('theme').click()],
+        ['GitHub', 'open', () => window.open(links.github)],
+        ['LinkedIn', 'open', () => window.open(links.linkedin)],
+        ...(links.whatsapp ? [['WhatsApp me', 'open', () => window.open(`https://wa.me/${links.whatsapp}`)] as [string, string, () => void]] : []),
+      ];
+      let shown = cmds;
+      let sel = 0;
+      const render = () => {
+        const f = input.value.toLowerCase();
+        shown = cmds.filter(([n]) => n.toLowerCase().includes(f));
+        sel = Math.min(sel, Math.max(0, shown.length - 1));
+        list.innerHTML = '';
+        shown.forEach(([n, hint], i) => {
+          const li = document.createElement('li');
+          li.role = 'option';
+          li.id = `cmd-${i}`;
+          li.ariaSelected = String(i === sel);
+          li.innerHTML = `<span></span><span class="mono"></span>`;
+          li.children[0].textContent = n;
+          li.children[1].textContent = hint;
+          li.onclick = () => run(i);
+          li.onmousemove = () => sel !== i && ((sel = i), render());
+          list.append(li);
+        });
+        input.setAttribute('aria-activedescendant', `cmd-${sel}`);
+      };
+      const run = (i: number) => {
+        const c = shown[i];
+        dlg.close();
+        c?.[2]();
+      };
+      const open = () => {
+        input.value = '';
+        sel = 0;
+        render();
+        dlg.showModal();
+      };
+      $('k').onclick = open;
+      input.oninput = () => ((sel = 0), render());
+      input.onkeydown = (e) => {
+        if (e.key === 'ArrowDown') sel = (sel + 1) % shown.length;
+        else if (e.key === 'ArrowUp') sel = (sel - 1 + shown.length) % shown.length;
+        else if (e.key === 'Enter') return run(sel);
+        else return;
+        e.preventDefault();
+        render();
+      };
+      dlg.onclick = (e) => e.target === dlg && dlg.close();
+      addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          dlg.open ? dlg.close() : open();
+        }
+      });
+    </script>
+  </body>
+</html>
