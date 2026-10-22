@@ -3,10 +3,37 @@ import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '../styles.css';
 import Mark from '../Mark.astro';
+import Role from '../Role.astro';
+import { fetchActivity, gridHTML, todayLine, type Activity } from '../github';
 import { site, links, flags, proof, work, lab, services, experience, education, awards, internshipLine, now } from '../data';
 
 const fav = (url: string) => `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
 const mail = `mailto:${links.email}`;
+// GitHub calendar (rolling year to today), rendered at build; the page refreshes it from /api/github.
+const gh: Activity = await fetchActivity(flags.githubLogin).catch(() => ({ total: 0, days: [] }));
+const liveCount = work.filter((w) => w.tags.includes('Live')).length;
+// Fluent Emoji 3D (MIT). Hover lifts a sticker; with sounds on, the row plays like a xylophone.
+const stickers: [string, string, string?][] = [
+  ['graduation_cap', 'B.Tech CS & AI, Newton School'],
+  ['laptop', 'Where it all happens'],
+  ['robot', 'NewtonClaw', links.newtonclaw],
+  ['trophy', '1st place, MCP Challenge'],
+  ['brain', 'AI agents and MCP'],
+  ['pill', 'myRxSetu', 'https://myrxsetu.com'],
+  ['receipt', 'GST invoices, done right'],
+  ['fire', 'BlazeEats', 'https://blazeeats.in'],
+  ['motor_scooter', 'Rider app, on the road'],
+  ['notebook', '24,000 SKUs at KR Stationers'],
+  ['package', 'Shipped to npm'],
+  ['house', 'ResolvHome'],
+  ['speech_balloon', 'Chatter'],
+  ['bug', 'Bugs squashed: lots'],
+  ['hot_beverage', 'Fuel: chai'],
+  ['tractor', 'Made in Haryana'],
+  ['crescent_moon', 'Late-night deploys'],
+  ['rocket', 'Next: your team?', '#contact'],
+];
+const rot = [-8, 6, -4, 9, -6, 3, -10, 5, -3, 8, -7, 4, -9, 6, -2, 7, -5, 10];
 const wa = links.whatsapp && `https://wa.me/${links.whatsapp}`;
 const textLinks = [
   ['GitHub', links.github],
@@ -68,6 +95,7 @@ const jsonLd = {
       <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark /></a>
       <div class="top-right">
         <span class="mono muted" id="here" hidden></span>
+        <span class="views" id="views" hidden title="Unique visitors, each counted once" aria-label="unique visitors"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg><span id="views-n"></span></span>
         <span class="mono muted" id="clock">Haryana · --:-- IST</span>
         <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode">◐</button>
         <button class="kbd-btn" id="k" type="button" aria-label="Open command menu" aria-keyshortcuts="Control+K Meta+K"><kbd id="k-mod">Ctrl</kbd><kbd>K</kbd></button>
@@ -78,11 +106,11 @@ const jsonLd = {
       <div class="hero" id="hero">
         <img class="avatar" src="/avatar.jpg" alt="Dikshant Jangra" width="64" height="64" fetchpriority="high" />
         <p class="mono muted">hey, I'm DJ</p>
-        <h1>{site.name}</h1>
+        <h1>{site.name}<svg class="verified" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12z" /><path class="tick" d="M7.5 12.2l3 3 6-6.2" /></svg></h1>
         <p class="role">{site.age} · Software engineer · {site.location}</p>
-        <p>I build <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top. Then I run it. The stack I built for <a class="fav" href="https://blazeeats.in"><img src={fav('https://blazeeats.in')} alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
+        <p>I build <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top. Then I run it. The stack I built for <a class="fav" href="https://blazeeats.in"><img src="/logos/blazeeats.png" alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
         <p>
-          I won <span class="hl">1st place at the Newton School MCP Challenge</span> with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. B.Tech in CS &amp; AI at Newton School of Technology.
+          I won the <span class="hl">Newton School MCP Challenge</span>, <span class="hl thin">1st among 3 winners across 3 campuses</span>, with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. <span class="hl mark">The prize: a year of <a class="fav" href="https://claude.ai"><img src="/logos/claude.png" alt="" width="14" height="14" />Claude Pro</a></span>. B.Tech in CS &amp; AI at Newton School of Technology.
         </p>
         <div class="buttons">
           <a class="btn btn-primary" href={links.resume}>View resume</a>
@@ -94,14 +122,27 @@ const jsonLd = {
         <p class="proof mono">{proof.join(' · ')}</p>
       </div>
 
-      <section id="work">
+      <section id="experience">
         <p class="label">Work</p>
+        <ul class="roles">
+          {experience.map((e) => <li><Role name={e.org} sub={e.role} when={e.dates} url={e.url} icon={e.icon} /></li>)}
+        </ul>
+        <p class="label sub-label">Education &amp; awards</p>
+        <ul class="roles">
+          {education.map((e) => <li><Role name={e.org.split(',')[0]} sub={e.role} when={e.dates} url="https://www.newtonschool.co" /></li>)}
+          {awards.map((a) => <li><Role name={a.role.split(' — ')[1] ?? a.role} sub={a.note} when={a.dates} url={links.newtonclaw} icon="/stickers/trophy.png" /></li>)}
+        </ul>
+        <p class="meta" style="margin-top:16px">{internshipLine} <a href={links.resume}>Resume →</a></p>
+      </section>
+
+      <section id="work">
+        <p class="label">Projects</p>
         <p class="intro">Shipped and running, with real users, real money and real constraints.</p>
         <ul class="rows">
           {work.map((w) => (
             <li>
               <a class="row" href={w.url || undefined}>
-                <span class="logo" aria-hidden="true">{w.url ? <img src={fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
+                <span class="logo" aria-hidden="true">{w.url ? <img src={w.icon ?? fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
                 <div>
                   <div class="row-head"><strong>{w.name}</strong>{w.tags.map((t) => <span class:list={['tag', t]}>{t}</span>)}</div>
                   <p>{w.oneLiner}</p>
@@ -115,17 +156,18 @@ const jsonLd = {
         </ul>
       </section>
 
-      <section id="demo" class="ask">
-        <p class="label">Try it</p>
-        <h2>Watch a product listing build itself.</h2>
-        <p class="intro">A small live version of the pipeline behind the 24,000-SKU catalog. Type a messy product name and get back a clean, structured listing.</p>
-        <form id="demo-form">
-          <label class="skip" for="product">Product name</label>
-          <input id="product" name="product" maxlength="80" placeholder="classmate notebook 172 pg single line" autocomplete="off" required />
-          <button class="btn btn-primary" type="submit">Enrich</button>
-        </form>
-        <ul class="steps mono" id="demo-steps" aria-live="polite"></ul>
-        <div class="card demo-card" id="demo-card" hidden></div>
+      <section id="github">
+        <div class="gh-head">
+          <p class="label">GitHub activity</p>
+          <p class="gh-today" id="gh-today" set:html={gh.days.length ? todayLine(gh) : ''} />
+        </div>
+        <div class="gh-scroll" id="gh-scroll">
+          <div class="gh-grid" id="gh-grid" role="img" aria-label={`${gh.total} GitHub contributions in the last year`} set:html={gridHTML(gh)} />
+        </div>
+        <div class="gh-foot">
+          <a href={links.github}><span id="gh-total">{gh.total.toLocaleString('en-US')}</span> contributions in the last year</a>
+          <span class="gh-legend" aria-hidden="true">Less <i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i> More</span>
+        </div>
       </section>
 
       <section id="lab">
@@ -151,23 +193,6 @@ const jsonLd = {
         {flags.panelLive && <p class="meta" style="margin-top:16px">Search my name: that Knowledge Panel is my work too.</p>}
       </section>
 
-      <section id="experience">
-        <p class="label">Experience</p>
-        <ul class="xp">
-          {experience.map((e) => (
-            <li>
-              <div class="xp-head"><strong>{e.role} · {e.org}</strong><span class="meta">{e.dates}</span></div>
-              {e.note && <p class="meta">{e.note}</p>}
-              <div class="chips">{e.chips.map((c) => <span class="chip">{c}</span>)}</div>
-            </li>
-          ))}
-        </ul>
-        <p class="label">Education</p>
-        <ul class="xp">{education.map((e) => <li><div class="xp-head"><strong>{e.role}</strong><span class="meta">{e.dates}</span></div><p class="meta">{e.org}</p></li>)}</ul>
-        <p class="label">Awards</p>
-        <ul class="xp">{awards.map((a) => <li><div class="xp-head"><strong>{a.role}</strong><span class="meta">{a.dates}</span></div><p class="meta">{a.org}</p></li>)}</ul>
-        <p class="meta" style="margin-top:16px">{internshipLine} <a href={links.resume}>Resume →</a></p>
-      </section>
 
       <section id="now">
         <p class="label">Now <span class="muted">· updated monthly</span></p>
@@ -217,20 +242,30 @@ const jsonLd = {
     </main>
 
     <footer>
-      <div class="foot-brand">
-        <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark size={24} /></a>
-        <p class="muted">Software engineer. I build systems that <span class="hl">people use every day</span>, from the database to the AI agent. Based in {site.location}.</p>
-      </div>
-      <div class="cols">
-        <div><p class="label">Social</p><ul>{[['GitHub', links.github], ['LinkedIn', links.linkedin], ['X', links.x], ['Instagram', links.instagram]].filter(([, u]) => u).map(([n, u]) => <li><a href={u}>{n}</a></li>)}</ul></div>
-        <div><p class="label">Site</p><ul><li><a href="#work">Work</a></li><li><a href="#focus">What I work on</a></li><li><a href={links.resume}>Resume</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
-        <div><p class="label">Elsewhere</p><ul>{links.dhivio && <li><a href={links.dhivio}>Dhivio</a></li>}<li><a href={links.cal}>Book a call</a></li></ul></div>
+      <div class="foot">
+        <div class="foot-brand">
+          <a class="wordmark" href="/" aria-label="Dikshant Jangra, home"><Mark size={24} /></a>
+          <p class="foot-name">dikshant jangra</p>
+          <p class="muted">Building production software, from {site.location}.</p>
+        </div>
+        <div class="cols">
+          <div><p class="label">Social</p><ul>{[['GitHub', links.github], ['LinkedIn', links.linkedin], ['X', links.x], ['Instagram', links.instagram]].filter(([, u]) => u).map(([n, u]) => <li><a href={u}>{n}</a></li>)}</ul></div>
+          <div><p class="label">Site</p><ul><li><a href="#experience">Work</a></li><li><a href="#work">Projects</a></li><li><a href="#ask">Ask DJ</a></li><li><a href={links.resume}>Resume</a></li><li><a href="/llms.txt">llms.txt</a></li></ul></div>
+          <div><p class="label">Elsewhere</p><ul>{links.dhivio && <li><a href={links.dhivio}>Dhivio</a></li>}<li><a href={links.cal}>Book a call</a></li><li><a href="/resume.pdf" download>Resume PDF</a></li></ul></div>
+        </div>
       </div>
       <div class="bottom">
-        <span>© 2026 {site.name} · Built in {site.location} · Updated {site.updated}</span>
-        <a href="/resume.pdf" download>Resume (PDF)</a>
+        <span>dikshant jangra © 2026 · updated {site.updated}</span>
         <button class="useless" id="useless" type="button">Don't press this</button>
+        <span>{liveCount} products live · 1 trophy · too much chai. made for people who ship.</span>
       </div>
+      <ul class="stickers" id="stickers" aria-label="Things from my story">
+        {stickers.map(([file, label, href], i) => (
+          <li data-label={label} style={`--i:${i};--r:${rot[i % rot.length]}deg;--y:${28 + ((i * 7) % 14)}%`}>
+            {href ? <a href={href} aria-label={label}><img src={`/stickers/${file}.png`} alt="" width="72" height="72" loading="lazy" /></a> : <img src={`/stickers/${file}.png`} alt={label} width="72" height="72" loading="lazy" />}
+          </li>
+        ))}
+      </ul>
     </footer>
 
     {wa && <a class="wa" id="wa" href={wa} aria-label="WhatsApp me">WhatsApp</a>}
@@ -248,12 +283,19 @@ const jsonLd = {
     <script>
       import { site, links } from '../data';
       import { annotate } from 'rough-notation';
+      import { gridHTML, todayLine, type Activity } from '../github';
       import { toggleSound, blip } from '../scripts/sound';
       import { openTerminal } from '../scripts/terminal';
       import '../scripts/presence';
       import '../scripts/guestbook';
-      import '../scripts/enrich';
       const $ = (id: string) => document.getElementById(id)!;
+
+      // Every link that leaves this page opens in a new tab (in-page anchors and the GitHub sign-in flow stay put)
+      document.addEventListener('click', (e) => {
+        const a = (e.target as Element).closest?.('a[href]') as HTMLAnchorElement | null;
+        if (!a || !/^https?:/.test(a.protocol) || a.pathname.startsWith('/auth')) return;
+        if (a.origin !== location.origin || a.pathname !== location.pathname) Object.assign(a, { target: '_blank', rel: 'noopener' });
+      }, true);
 
       // Clock
       const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
@@ -283,7 +325,9 @@ const jsonLd = {
         es.forEach((e) => {
           if (!e.isIntersecting) return;
           hlIo.unobserve(e.target);
-          annotate(e.target as HTMLElement, { type: 'underline', color: '#FF5A1F', strokeWidth: 2, padding: 1, multiline: true, animate: !reduce, animationDuration: 700 }).show();
+          const el = e.target as HTMLElement;
+          const style = el.classList.contains('mark') ? { type: 'highlight', color: 'rgb(255 90 31 / 0.18)' } : el.classList.contains('thin') ? { type: 'underline', color: 'rgb(255 90 31 / 0.6)', strokeWidth: 1 } : { type: 'underline', color: '#FF5A1F', strokeWidth: 2 };
+          annotate(el, { ...style, padding: 1, multiline: true, animate: !reduce, animationDuration: 700 } as Parameters<typeof annotate>[1]).show();
         }),
       { rootMargin: '0px 0px -15% 0px' });
       document.querySelectorAll('.hl').forEach((h) => hlIo.observe(h));
@@ -291,6 +335,10 @@ const jsonLd = {
       // Reveal sections once
       const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { rootMargin: '0px 0px -10% 0px' });
       document.querySelectorAll('section').forEach((s) => io.observe(s));
+      io.observe($('stickers'));
+      const notes = [523, 587, 659, 784, 880];
+      document.querySelectorAll('.stickers li').forEach((li, i) => li.addEventListener('pointerenter', () => blip(notes[i % 5] * (i < 9 ? 1 : 2), 60)));
+      document.querySelectorAll('.stickers li:not(:has(a))').forEach((li) => li.addEventListener('click', () => li.animate([{ rotate: '0deg' }, { rotate: '-14deg' }, { rotate: '10deg' }, { rotate: '0deg' }], { duration: 420, easing: 'ease-out' })));
 
       // Floating WhatsApp after hero leaves
       const wa = document.getElementById('wa');
@@ -302,6 +350,30 @@ const jsonLd = {
         b.classList.add('pressed');
         b.textContent = 'Told you.';
       };
+
+      // Unique visitors (D1). Counts this browser once, then just reads.
+      fetch('/api/views', { method: 'POST' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((v) => {
+          if (typeof v?.views !== 'number') return;
+          $('views-n').textContent = v.views.toLocaleString('en-US');
+          $('views').hidden = false;
+        })
+        .catch(() => {});
+
+      // GitHub: open at today (the right edge), then swap in fresh data
+      const ghScroll = $('gh-scroll');
+      ghScroll.scrollLeft = ghScroll.scrollWidth;
+      fetch('/api/github')
+        .then((r) => (r.ok ? r.json() : null))
+        .then((g: Activity | null) => {
+          if (!g?.days?.length) return;
+          $('gh-grid').innerHTML = gridHTML(g);
+          $('gh-total').textContent = g.total.toLocaleString('en-US');
+          $('gh-today').innerHTML = todayLine(g);
+          ghScroll.scrollLeft = ghScroll.scrollWidth;
+        })
+        .catch(() => {});
 
       // Live status from KV (set via Telegram)
       fetch('/api/status')
@@ -376,9 +448,9 @@ const jsonLd = {
         ['Book a call', 'cal.com', () => (location.href = links.cal)],
         ['Copy email', links.email, () => navigator.clipboard.writeText(links.email)],
         ['Ask DJ a question', 'AI', () => $('q').focus()],
-        ['Work', 'jump', go('work')],
+        ['Work', 'jump', go('experience')],
+        ['Projects', 'jump', go('work')],
         ['What I work on', 'jump', go('focus')],
-        ['Experience', 'jump', go('experience')],
         ['Contact', 'jump', go('contact')],
         ['Toggle theme', 'light / dark', () => $('theme').click()],
         ['Open terminal', 'press `', openTerminal],

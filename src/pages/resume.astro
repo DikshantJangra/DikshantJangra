@@ -88,7 +88,7 @@ const contact = [
       ))}
 
       <h2>Projects</h2>
-      {work.map((w) => (
+      {work.slice(0, 5).map((w) => (
         <div class="item">
           <div class="head"><strong>{w.url ? <a href={w.url}>{w.name}</a> : w.name}</strong><span class="when">{w.tags.join(' · ')}</span></div>
           <p>{w.oneLiner} {w.detail}</p>
@@ -109,7 +109,7 @@ const contact = [
       {awards.map((a) => (
         <div class="item">
           <div class="head"><strong>{a.role}</strong><span class="when">{a.dates}</span></div>
-          <p class="sub">{a.org}</p>
+          <p class="sub">{a.org} · {a.note} (worth $200)</p>
         </div>
       ))}
 
@@ -117,5 +117,6 @@ const contact = [
       <p class="skills"><strong>Languages:</strong> TypeScript, Python, SQL</p>
       {services.map((x) => <p class="skills"><strong>{x.name}:</strong> {x.chips.join(', ')}</p>)}
     </main>
+    <script>document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]').forEach((a) => Object.assign(a, { target: '_blank', rel: 'noopener' }));</script>
   </body>
 </html>

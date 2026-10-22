@@ -1,0 +1,16 @@
+---
+// One row of the Work list: logo, name, role and dates, domain + arrow when it links out.
+interface Props { name: string; sub: string; when: string; url?: string; icon?: string }
+const { name, sub, when, url, icon } = Astro.props;
+const host = url && new URL(url).hostname.replace(/^www\./, '');
+const src = icon ?? (host && `https://www.google.com/s2/favicons?domain=${host}&sz=64`);
+const Tag = url ? 'a' : 'div';
+---
+<Tag class="job" href={url || undefined}>
+  <span class="job-logo" aria-hidden="true">{src ? <img src={src} alt="" width="24" height="24" loading="lazy" /> : name[0]}</span>
+  <span class="job-main">
+    <span class="job-name">{name}</span>
+    <span class="job-sub">{sub}<span class="job-when">{when.replace('Present', 'now')}</span></span>
+  </span>
+  {url && <span class="job-end"><span class="job-host">{host}</span><span class="job-arrow">↗</span></span>}
+</Tag>

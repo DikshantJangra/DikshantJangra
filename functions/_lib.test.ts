@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
+import { parseContributions } from '../src/github.ts';
 import { parseCommand, takeQuota, signSession, readSession, PER_IP_DAILY, GLOBAL_DAILY } from './_lib.ts';
-import { toCard } from './api/enrich.ts';
 
 assert.deepEqual(parseCommand('/status booked January'), { available: false, pill: 'Booked till January' });
 assert.deepEqual(parseCommand('/status open Taking 1 project for Jan'), { available: true, pill: 'Taking 1 project for Jan' });
@@ -19,7 +19,7 @@ for (let ip = 0; ip < GLOBAL_DAILY; ip++) await takeQuota(kv, `ip${ip}`, 'd');
 assert.equal(Number(store.get('ask:d:all')), GLOBAL_DAILY, 'global cap');
 
 // Separate buckets don't share quota
-assert.equal(await takeQuota(kv, 'a', 'd', 'enrich'), true);
+assert.equal(await takeQuota(kv, 'a', 'd', 'other'), true);
 
 // Session cookie: round-trips, rejects tampering, wrong secret and expiry
 const tok = await signSession({ login: 'dj', avatar: 'x', exp: 2000 }, 's3cret');
@@ -32,11 +32,12 @@ assert.equal(await readSession(`session=${forged}.${sig}`, 's3cret', 1000), null
 assert.equal(await readSession(`session=${body}`, 's3cret', 1000), null, 'no sig');
 assert.equal(await readSession(null, 's3cret'), null);
 
-// Enrichment parsing: tolerates prose around JSON, clamps fields, rejects junk
-const card = toCard('Sure! {"title":"Classmate Notebook","brand":"Classmate","category":"Paper & Notebooks","attributes":{"Pages":"172","Ruling":"Single line","x":""},"description":"A sturdy single-line notebook."} hope that helps');
-assert.deepEqual(card?.attributes, { Pages: '172', Ruling: 'Single line' });
-assert.equal(card?.brand, 'Classmate');
-assert.equal(toCard('no json here'), null);
-assert.equal(toCard('{"title":"","description":"x"}'), null);
+// GitHub calendar: counts come from tooltips matched by id, days sorted by date
+const gh = parseContributions(`<h2>
+  1,234 contributions
+  in 2026</h2><td data-date="2026-01-02" id="d1" data-level="2" class="ContributionCalendar-day"></td><td data-date="2026-01-01" id="d0" data-level="0"></td>
+<tool-tip for="d1" class="sr-only">12 contributions on January 2nd.</tool-tip><tool-tip for="d0">No contributions on January 1st.</tool-tip>`);
+assert.equal(gh.total, 1234);
+assert.deepEqual(gh.days, [{ date: '2026-01-01', level: 0, count: 0 }, { date: '2026-01-02', level: 2, count: 12 }]);
 
 console.log('ok');
