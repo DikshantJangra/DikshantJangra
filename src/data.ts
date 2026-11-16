@@ -77,9 +77,8 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     oneLiner: 'A private, offline AI assistant built on Google Gemma: a floating macOS agent and a Python CLI.',
     detail: 'Zero-egress local AI companion. A macOS HUD opened with ⌥+Space, with voice dictation, local semantic memory, Accessibility control and Chrome automation, plus a Python CLI for task planning and repo AST audits. Gemma runs on-device via Ollama, behind three-tier command approvals.',
     bullets: [
-      'Won Best Use of Gemma 4 and finished #1 on campus at Hacktoberfest Hack Day 2026, scoring 46 points to the next team’s 32',
-      'Built a zero-egress assistant running Gemma locally via Ollama: a macOS HUD with voice dictation, semantic memory and Chrome automation, plus a Python CLI for task planning and repo audits',
-      'Added three-tier command approvals, a shell command classifier and blocked access to password fields',
+      'Built a zero-egress assistant running Gemma locally via Ollama: a macOS voice HUD with Chrome automation and a Python CLI for repo audits, gated by three-tier command approvals',
+      'Won Best Use of Gemma 4 at Hacktoberfest Hack Day 2026, scoring 46 points to the next team’s 32',
     ],
     tags: ['Hackathon', 'Open source'],
     stack: ['Gemma', 'Ollama', 'Python', 'Swift', 'Three.js', 'GitHub Actions'],
@@ -115,8 +114,8 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     oneLiner: 'Took 1st place at the Newton School MCP Challenge across 3 campuses and won a year of Claude Pro.',
     detail: 'A local-first AI agent for students. One agent loop, built as ports and adapters, serves both a terminal CLI and a Telegram bot, calls tools over MCP and runs on OpenAI, Claude, Gemini or fully offline on Ollama. Ships with npx newtonclaw.',
     bullets: [
-      'Won 1st place at the Newton School MCP Challenge across 3 campuses, winning a year of Claude Pro',
       'Built one agent loop serving a CLI and Telegram bot over MCP, on OpenAI, Claude, Gemini or offline Ollama; shipped as npx newtonclaw',
+      'Won 1st place at the Newton School MCP Challenge across 3 campuses, earning a year of Claude Pro',
     ],
     tags: ['Award', 'Open source'],
     stack: ['MCP', 'TypeScript', 'Telegraf', 'OpenAI / Ollama', 'Chrome extension'],
@@ -211,15 +210,6 @@ export const awards = [
   { role: 'Best Use of Gemma 4 — Hacktoberfest Hack Day', org: 'Jinn', note: 'Sonipat x Rishihood University · #1 on campus, 46 points to the next best 32', dates: 'Oct 2026', url: 'https://github.com/DikshantJangra/Jinn' },
   { role: '1st place — Newton School MCP Challenge', org: 'NewtonClaw', note: '1st of 3 winners, 3 campuses · won a year of Claude Pro', dates: 'Apr 2026', url: links.newtonclaw },
   { role: 'Qualifier — Smart India Hackathon', org: '', note: 'Qualified in 2024, 2025 and 2026', dates: '2024–2026', url: 'https://www.sih.gov.in' },
-  { role: 'Participant — NSTakathon', org: '', note: 'Participant', dates: '', url: '' },
-];
-
-// Resume "Hackathons" section. Outcomes only where earned; no promises about this year's results.
-export const hackathons = [
-  { name: 'Hacktoberfest Hack Day, Sonipat x Rishihood University', note: 'Best Use of Gemma 4 with Jinn, #1 on campus', dates: 'Oct 2026' },
-  { name: 'Smart India Hackathon', note: 'Qualified in 2024, 2025 and 2026', dates: '2024–2026' },
-  { name: 'NSTakathon', note: 'Participant', dates: '' },
-  { name: 'Major hackathons', note: 'Participated in 3, qualified for round two in one', dates: '' },
 ];
 
 export const internshipLine = 'Open to SDE and AI engineering internships from January 2027.';

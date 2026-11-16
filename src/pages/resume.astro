@@ -3,11 +3,13 @@ import '@fontsource-variable/geist';
 import '@fontsource/instrument-serif';
 import '../styles.css';
 import Mark from '../Mark.astro';
-import { site, links, proof, work, services, experience, education, hackathons } from '../data';
+import { site, links, proof, work, services, experience, education } from '../data';
 
 const host = new URL(site.url).hostname;
 const strip = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 const country = site.location.split(',').pop()?.trim() ?? site.location;
+// Skills with no project on this page are left off the resume.
+const hideSkills = ['React Native', 'Playwright'];
 const summary = 'Builds production software end to end: AI agents, multi-tenant backends and the apps on top.';
 // Keep hyphenated words (multi-tenant, self-hosted) on one line.
 const nb = (s: string) =>
@@ -98,7 +100,7 @@ const contact = [
 
       <h2>Skills</h2>
       <p class="skills"><strong>Languages:</strong> JavaScript, TypeScript, Python, SQL</p>
-      {services.map((x) => <p class="skills"><strong>{x.name}:</strong> {x.chips.join(', ')}</p>)}
+      {services.map((x) => <p class="skills"><strong>{x.name}:</strong> {x.chips.filter((c) => !hideSkills.includes(c)).join(', ')}</p>)}
 
       <h2>Experience</h2>
       {experience.map((e) => (
@@ -125,9 +127,6 @@ const contact = [
           <p class="sub">{e.org}{e.cgpa ? ` · CGPA ${e.cgpa}` : ''}</p>
         </div>
       ))}
-
-      <h2>Hackathons</h2>
-      <ul>{hackathons.map((h) => <li><strong>{h.name}</strong>{h.dates ? ` (${h.dates})` : ''}: {h.note}</li>)}</ul>
     </main>
     <script>document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]').forEach((a) => Object.assign(a, { target: '_blank', rel: 'noopener' }));</script>
   </body>
