@@ -1,18 +1,23 @@
 ---
 import '@fontsource-variable/geist';
-import '@fontsource-variable/geist-mono';
+import '@fontsource/instrument-serif';
 import '../styles.css';
 import Mark from '../Mark.astro';
-import { site, links, proof, work, lab, services, experience, education, awards, internshipLine } from '../data';
+import { site, links, proof, work, services, experience, education } from '../data';
 
 const host = new URL(site.url).hostname;
 const strip = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const country = site.location.split(',').pop()?.trim() ?? site.location;
+const summary = 'Builds production software end to end: AI agents, multi-tenant backends and the apps on top.';
+// Keep hyphenated words (multi-tenant, self-hosted) on one line.
+const nb = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\b\w+(?:-\w+)+\b/g, (m) => `<span class="nb">${m}</span>`);
 const contact = [
   [host, site.url],
   [links.email, `mailto:${links.email}`],
   [strip(links.github), links.github],
   [strip(links.linkedin), links.linkedin],
-  [site.location, ''],
+  [country, ''],
 ].filter(([t]) => t);
 ---
 
@@ -34,32 +39,44 @@ const contact = [
       body { padding: 0 16px 56px; }
       .bar { max-width: 794px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 20px 0; }
       .bar div { display: flex; gap: 8px; }
-      .sheet { max-width: 794px; margin: 0 auto; background: #fff; color: #111; border: 1px solid var(--line); border-radius: 14px; padding: 48px 56px; font-size: 13.5px; line-height: 1.55; box-shadow: 0 10px 40px rgb(0 0 0 / 0.06); }
-      .sheet a { color: inherit; }
-      .sheet h1 { font-size: 30px; margin: 0; }
-      .sheet .lead { color: #444; margin-top: 4px; font-size: 15px; }
-      .sheet .contact { display: flex; flex-wrap: wrap; gap: 2px 14px; margin-top: 10px; color: #6b6b6b; font-size: 12.5px; }
-      .sheet h2 { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: #ff5a1f; margin: 22px 0 6px; padding-bottom: 5px; border-bottom: 1px solid #e7e7e4; }
-      .sheet .item { padding: 6px 0; break-inside: avoid; }
+      .sheet { max-width: 794px; margin: 0 auto; background: #fff; color: #1a1a1a; border: 1px solid var(--line); border-radius: 14px; padding: 52px 60px; font-family: 'Aptos', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.5; box-shadow: 0 10px 40px rgb(0 0 0 / 0.06); }
+      .sheet a { color: inherit; text-decoration: none; border-bottom: 1px solid #cfcfca; }
+      .sheet h1 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 44px; line-height: 0.95; letter-spacing: 0; margin: 0; }
+      .sheet .lead { color: #333; margin-top: 7px; font-size: 14px; line-height: 1.45; max-width: 62ch; }
+      .sheet .lead b { font-weight: 600; color: #111; }
+      .sheet .contact { display: flex; flex-wrap: wrap; gap: 2px 16px; margin-top: 11px; color: #555; font-size: 12px; }
+      .sheet h2 { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: #111; margin: 20px 0 8px; padding-bottom: 5px; border-bottom: 1px solid #1a1a1a; }
+      .sheet .item { padding: 5px 0; break-inside: avoid; }
+      .sheet ul { margin: 3px 0 0; padding-left: 17px; list-style: disc; }
+      .sheet li { margin: 1.5px 0; padding-left: 2px; }
+      .sheet li::marker { color: #555; }
+      .sheet li, .sheet .lead { text-wrap: pretty; }
+      .sheet :global(.nb) { white-space: nowrap; }
       .sheet .head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
-      .sheet .head strong { font-weight: 600; }
-      .sheet .when { color: #6b6b6b; font-size: 12px; white-space: nowrap; font-family: var(--mono); }
-      .sheet .sub { color: #6b6b6b; font-size: 12.5px; }
-      .sheet .proof { margin-top: 14px; padding: 8px 0; border-block: 1px solid #e7e7e4; font: 500 10.5px/1.6 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: #6b6b6b; }
-      .sheet .skills { color: #333; }
+      .sheet .head strong { font-weight: 600; font-size: 13.5px; }
+      .sheet .when { color: #666; font-size: 11.5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .sheet .sub { color: #666; font-size: 12px; margin-top: 2px; }
+      .sheet .proof { margin-top: 13px; padding: 10px 0; border-block: 1px solid #e3e3e0; font-size: 11.5px; line-height: 1.5; color: #333; }
+      .sheet .skills { color: #333; margin: 2px 0; }
+      .sheet .skills strong { color: #111; font-weight: 600; }
       @media (max-width: 639px) { .sheet { padding: 28px 20px; border-radius: 10px; } .sheet .head { flex-direction: column; gap: 0; } }
-      @page { size: A4; margin: 10mm 13mm; }
+      @page { size: A4; margin: 8mm 12mm; }
       @media print {
         html, body { background: #fff !important; padding: 0; }
         .bar { display: none; }
         .sheet { max-width: none; border: 0; border-radius: 0; padding: 0; box-shadow: none; }
-        .sheet a { text-decoration: none; }
-        .sheet { font-size: 11.2px; line-height: 1.45; }
-        .sheet h1 { font-size: 24px; }
-        .sheet .lead { font-size: 13px; }
-        .sheet h2 { margin: 12px 0 3px; }
-        .sheet .item { padding: 2px 0; }
-        .sheet .sub, .sheet .contact { font-size: 10.6px; }
+        .sheet a { text-decoration: none; border-bottom: 0; }
+        .sheet { font-size: 11.2px; line-height: 1.42; }
+        .sheet h1 { font-size: 34px; }
+        .sheet .lead { font-size: 12.5px; margin-top: 5px; max-width: none; }
+        .sheet .head strong { font-size: 11.8px; }
+        .sheet h2 { margin: 14px 0 4px; padding-bottom: 4px; }
+        .sheet .item { padding: 3px 0; }
+        .sheet .proof { padding: 7px 0; margin-top: 10px; }
+        .sheet .contact { margin-top: 9px; }
+        .sheet .sub, .sheet .contact { font-size: 10.5px; }
+        .sheet ul { margin: 2px 0 0; }
+        .sheet li { margin: 0.5px 0; }
       }
     </style>
   </head>
@@ -75,15 +92,20 @@ const contact = [
 
     <main class="sheet" id="main">
       <h1>{site.name}</h1>
-      <p class="lead">Software engineer. {site.oneLiner} {internshipLine}</p>
+      <p class="lead"><b>SDE &amp; AI Engineer.</b> <span set:html={nb(summary)} /></p>
       <p class="contact">{contact.map(([t, u]) => (u ? <a href={u}>{t}</a> : <span>{t}</span>))}</p>
       <p class="proof">{proof.join(' · ')}</p>
+
+      <h2>Skills</h2>
+      <p class="skills"><strong>Languages:</strong> JavaScript, TypeScript, Python, SQL</p>
+      {services.map((x) => <p class="skills"><strong>{x.name}:</strong> {x.chips.join(', ')}</p>)}
 
       <h2>Experience</h2>
       {experience.map((e) => (
         <div class="item">
           <div class="head"><strong>{e.role} · {e.org}</strong><span class="when">{e.dates}</span></div>
-          <p class="sub">{[e.note, e.chips.join(', ')].filter(Boolean).join(' · ')}</p>
+          {e.bullets ? <ul>{e.bullets.map((b) => <li set:html={nb(b)} />)}</ul> : <p class="sub">{e.note}</p>}
+          <p class="sub">{e.chips.join(', ')}</p>
         </div>
       ))}
 
@@ -91,31 +113,18 @@ const contact = [
       {work.slice(0, 5).map((w) => (
         <div class="item">
           <div class="head"><strong>{w.url ? <a href={w.url}>{w.name}</a> : w.name}</strong><span class="when">{w.tags.join(' · ')}</span></div>
-          <p>{w.oneLiner} {w.detail}</p>
+          {w.bullets ? <ul>{w.bullets.map((b) => <li set:html={nb(b)} />)}</ul> : <p>{w.oneLiner} {w.detail}</p>}
           <p class="sub">{w.stack.join(', ')}</p>
         </div>
       ))}
-      <div class="item"><p class="sub">Also: {lab.map((p) => `${p.name}: ${p.text.split('.')[0]}`).join('; ')}.</p></div>
 
       <h2>Education</h2>
       {education.map((e) => (
         <div class="item">
           <div class="head"><strong>{e.role}</strong><span class="when">{e.dates}</span></div>
-          <p class="sub">{e.org}</p>
+          <p class="sub">{e.org}{e.cgpa ? ` · CGPA ${e.cgpa}` : ''}</p>
         </div>
       ))}
-
-      <h2>Awards</h2>
-      {awards.map((a) => (
-        <div class="item">
-          <div class="head"><strong>{a.role}</strong><span class="when">{a.dates}</span></div>
-          <p class="sub">{a.org} · {a.note} (worth $200)</p>
-        </div>
-      ))}
-
-      <h2>Skills</h2>
-      <p class="skills"><strong>Languages:</strong> TypeScript, Python, SQL</p>
-      {services.map((x) => <p class="skills"><strong>{x.name}:</strong> {x.chips.join(', ')}</p>)}
     </main>
     <script>document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]').forEach((a) => Object.assign(a, { target: '_blank', rel: 'noopener' }));</script>
   </body>

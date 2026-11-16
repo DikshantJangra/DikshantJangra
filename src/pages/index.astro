@@ -135,7 +135,7 @@ const jsonLd = {
         <p class="label sub-label">Education &amp; awards</p>
         <ul class="roles">
           {education.map((e) => <li><Role name={e.org.split(',')[0]} sub={e.role} when={e.dates} url="https://www.newtonschool.co" /></li>)}
-          {awards.map((a) => <li><Role name={a.role.split(' — ')[1] ?? a.role} sub={a.note} when={a.dates} url={links.newtonclaw} icon="/stickers/trophy.png" /></li>)}
+          {awards.map((a) => <li><Role name={a.role.split(' — ')[1] ?? a.role} sub={a.note} when={a.dates} url={a.url} icon="/stickers/trophy.png" /></li>)}
         </ul>
         <p class="meta" style="margin-top:16px">{internshipLine} <a href={links.resume}>Resume →</a></p>
       </section>
