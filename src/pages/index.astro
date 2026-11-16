@@ -5,7 +5,7 @@ import '../styles.css';
 import Mark from '../Mark.astro';
 import Role from '../Role.astro';
 import { fetchActivity, gridHTML, todayLine, type Activity } from '../github';
-import { site, links, flags, proof, work, lab, services, experience, education, awards, internshipLine, now } from '../data';
+import { site, links, flags, stats, work, lab, services, experience, education, awards, internshipLine, now } from '../data';
 
 const fav = (url: string) => `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
 const mail = `mailto:${links.email}`;
@@ -110,21 +110,21 @@ const jsonLd = {
           <path style="--d:2.65s;--s:0.85s" pathLength="1" d="M154 25C152 54 146 80 133 97C123 109 104 107 106 95C108 83 132 77 156 81C182 85 208 72 232 44" />
         </svg>
         <img class="avatar" src="/avatar.jpg" alt="Dikshant Jangra" width="64" height="64" fetchpriority="high" />
-        <p class="mono muted">hey, I'm DJ</p>
+        <p class="mono muted">DJ</p>
         <h1>D<span class="i-dot">i<span class="rig" aria-hidden="true"><span class="tittle"></span></span></span>kshant Jangra<svg class="verified" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12z" /><path class="tick" d="M7.5 12.2l3 3 6-6.2" /></svg></h1>
         <p class="role">{site.age} · Software engineer · {site.location}</p>
-        <p>I build <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top. Then I run it. The stack I built for <a class="fav" href="https://blazeeats.in"><img src="/logos/blazeeats.png" alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
+        <p>Builds <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top, then runs it. The stack behind <a class="fav" href="https://blazeeats.in"><img src="/logos/blazeeats.png" alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
         <p>
-          I won the <span class="hl">Newton School MCP Challenge</span>, <span class="hl thin">1st among 3 winners across 3 campuses</span>, with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. <span class="hl mark">The prize: a year of <a class="fav" href="https://claude.ai"><img src="/logos/claude.png" alt="" width="14" height="14" />Claude Pro</a></span>. B.Tech in CS &amp; AI at Newton School of Technology.
+          Won the <span class="hl">Newton School MCP Challenge</span>, <span class="hl thin">1st among 3 winners across 3 campuses</span>, with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. <span class="hl mark">The prize: a year of <a class="fav" href="https://claude.ai"><img src="/logos/claude.png" alt="" width="14" height="14" />Claude Pro</a></span>. Also took <span class="hl thin">Best Use of Gemma 4 at Hacktoberfest Hack Day 2026</span> with <a class="fav" href="https://github.com/DikshantJangra/Jinn">Jinn</a>, a private offline AI assistant. B.Tech in CS &amp; AI at Newton School of Technology.
         </p>
         <div class="buttons">
           <a class="btn btn-primary" href={links.resume}>View resume</a>
-          <a class="btn btn-secondary" href={mail}>Email me</a>
+          <a class="btn btn-secondary" href={mail}>Email</a>
         </div>
         <nav class="textlinks" aria-label="Profiles">
           {textLinks.map(([name, url]) => <a class="fav" href={url}>{url.startsWith('http') && <img src={fav(url)} alt="" width="14" height="14" loading="lazy" />}{name}</a>)}
         </nav>
-        <p class="proof mono">{proof.join(' · ')}</p>
+        <ul class="stats" aria-label="Highlights">{stats.map((x) => <li><strong>{x.n}</strong><span>{x.t}</span></li>)}</ul>
       </div>
 
       <section id="experience">
@@ -144,18 +144,23 @@ const jsonLd = {
         <p class="label">Projects</p>
         <p class="intro">Shipped and running, with real users, real money and real constraints.</p>
         <ul class="rows">
-          {work.map((w) => (
+          {work.map((w, i) => (
             <li>
-              <a class="row" href={w.url || undefined}>
-                <span class="logo" aria-hidden="true">{w.url ? <img src={w.icon ?? fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
-                <div>
-                  <div class="row-head"><strong>{w.name}</strong>{w.tags.map((t) => <span class:list={['tag', t]}>{t}</span>)}</div>
-                  <p>{w.oneLiner}</p>
-                  <p class="meta">{w.detail}</p>
+              <details class="proj" open={i === 0}>
+                <summary>
+                  <span class="logo" aria-hidden="true">{w.url ? <img src={w.icon ?? fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
+                  <div>
+                    <div class="row-head"><strong>{w.name}</strong>{w.tags.map((t) => <span class:list={['tag', t]}>{t}</span>)}</div>
+                    <p>{w.oneLiner}</p>
+                  </div>
+                  <span class="chev" aria-hidden="true"></span>
+                </summary>
+                <div class="proj-body">
+                  {w.bullets ? <ul class="points">{w.bullets.map((b) => <li>{b}</li>)}</ul> : <p class="meta">{w.detail}</p>}
                   <div class="chips">{w.stack.map((s) => <span class="chip">{s}</span>)}</div>
+                  {w.url && <a class="visit" href={w.url}>{w.url.includes('github.com') ? 'View on GitHub' : 'Visit ' + w.name} <span aria-hidden="true">→</span></a>}
                 </div>
-                {w.url && <span class="arrow" aria-hidden="true">→</span>}
-              </a>
+              </details>
             </li>
           ))}
         </ul>
@@ -184,7 +189,7 @@ const jsonLd = {
       </section>
 
       <section id="focus">
-        <p class="label">What I work on</p>
+        <p class="label">Focus areas</p>
         <h2>Three layers, one engineer.</h2>
         <div class="stack">
           {services.map((s) => (
@@ -195,7 +200,7 @@ const jsonLd = {
             </div>
           ))}
         </div>
-        {flags.panelLive && <p class="meta" style="margin-top:16px">Search my name: that Knowledge Panel is my work too.</p>}
+        {flags.panelLive && <p class="meta" style="margin-top:16px">Search the name: that Knowledge Panel is DJ’s work too.</p>}
       </section>
 
 
@@ -211,14 +216,14 @@ const jsonLd = {
 
       <section id="ask" class="ask">
         <p class="label">Ask DJ</p>
-        <h2>Ask anything about my work.</h2>
+        <h2>Ask anything about the work.</h2>
         <form id="ask-form">
           <label class="skip" for="q">Your question</label>
           <input id="q" name="q" maxlength="300" placeholder="What's the hardest system you've built?" autocomplete="off" required />
           <button class="btn btn-primary" type="submit">Ask</button>
         </form>
         <p class="answer" id="answer" aria-live="polite"></p>
-        <p class="mcp muted">Using Claude? Add <code>{site.url}/mcp</code> as an MCP server and ask it about me.</p>
+        <p class="mcp muted">Using Claude? Add <code>{site.url}/mcp</code> as an MCP server and ask it about DJ.</p>
       </section>
 
       <section id="guestbook" class="guestbook">
@@ -236,14 +241,14 @@ const jsonLd = {
 
       <section id="contact" class="cta">
         <h2>Hiring engineers who ship?</h2>
-        <p class="muted" style="margin-top:10px">I'm looking for SDE and AI engineering roles where I can own systems end to end. I reply within a day.</p>
+        <p class="muted" style="margin-top:10px">SDE and AI engineering roles, owning systems end to end. Replies within a day.</p>
         <div class="buttons">
-          <a class="btn btn-primary" href={mail}>Email me</a>
-          <a class="btn btn-secondary" href="/line">Message me directly</a>
+          <a class="btn btn-primary" href={mail}>Email</a>
+          <a class="btn btn-secondary" href="/line">Message directly</a>
           <a class="btn btn-secondary" href={links.cal}>Book a 20-min call</a>
           <a class="btn btn-secondary" href="/resume.pdf" download>Download resume</a>
         </div>
-        <p class="meta" style="margin-top:14px">Need something built instead? I take a few freelance projects a year{links.dhivio && <>, or through <a href={links.dhivio}>Dhivio</a></>}. {wa && <a href={wa}>WhatsApp me</a>}</p>
+        <p class="meta" style="margin-top:14px">Need something built instead? A few freelance projects are taken each year{links.dhivio && <>, or through <a href={links.dhivio}>Dhivio</a></>}. {wa && <a href={wa}>WhatsApp</a>}</p>
       </section>
     </main>
 
@@ -265,7 +270,7 @@ const jsonLd = {
         <button class="useless" id="useless" type="button">Don't press this</button>
         <span>{liveCount} products live · 1 trophy · too much chai. made for people who ship.</span>
       </div>
-      <ul class="stickers" id="stickers" aria-label="Things from my story">
+      <ul class="stickers" id="stickers" aria-label="Things from the story">
         {stickers.map(([file, label, href], i) => (
           <li data-label={label} style={`--i:${i};--r:${rot[i % rot.length]}deg;--y:${28 + ((i * 7) % 14)}%`}>
             {href ? <a href={href} aria-label={label}><img src={`/stickers/${file}.png`} alt="" width="72" height="72" loading="lazy" /></a> : <img src={`/stickers/${file}.png`} alt={label} width="72" height="72" loading="lazy" />}
@@ -274,7 +279,7 @@ const jsonLd = {
       </ul>
     </footer>
 
-    {wa && <a class="wa" id="wa" href={wa} aria-label="WhatsApp me">WhatsApp</a>}
+    {wa && <a class="wa" id="wa" href={wa} aria-label="WhatsApp">WhatsApp</a>}
 
     <dialog id="term" class="term" aria-label="Terminal">
       <pre id="term-out"></pre>
@@ -300,6 +305,7 @@ const jsonLd = {
       document.addEventListener('click', (e) => {
         const a = (e.target as Element).closest?.('a[href]') as HTMLAnchorElement | null;
         if (!a || !/^https?:/.test(a.protocol) || a.pathname.startsWith('/auth')) return;
+        if (a.origin === location.origin && a.pathname.startsWith('/resume')) return; // resume opens in the same tab
         if (a.origin !== location.origin || a.pathname !== location.pathname) Object.assign(a, { target: '_blank', rel: 'noopener' });
       }, true);
 
@@ -435,9 +441,9 @@ const jsonLd = {
         try {
           const r = await fetch('/api/ask', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ q }) });
           const d = await r.json().catch(() => ({}));
-          out.textContent = d.answer || d.error || 'Something broke. Email me instead.';
+          out.textContent = d.answer || d.error || 'Something broke. Email instead.';
         } catch {
-          out.textContent = 'Something broke. Email me instead.';
+          out.textContent = 'Something broke. Email instead.';
         }
         btn.disabled = false;
       };
@@ -455,8 +461,8 @@ const jsonLd = {
         ['Ask DJ a question', 'AI', () => $('q').focus()],
         ['Work', 'jump', go('experience')],
         ['Projects', 'jump', go('work')],
-        ['Direct line', 'message me', () => (location.href = '/line')],
-        ['What I work on', 'jump', go('focus')],
+        ['Direct line', 'direct', () => (location.href = '/line')],
+        ['Focus areas', 'jump', go('focus')],
         ['Contact', 'jump', go('contact')],
         ['Toggle theme', 'light / dark', () => $('theme').click()],
         ['Open terminal', 'press `', openTerminal],
@@ -465,7 +471,7 @@ const jsonLd = {
         ['Toggle sounds', 'off by default', () => toggleSound()],
         ['GitHub', 'open', () => window.open(links.github)],
         ['LinkedIn', 'open', () => window.open(links.linkedin)],
-        ...(links.whatsapp ? [['WhatsApp me', 'open', () => window.open(`https://wa.me/${links.whatsapp}`)] as [string, string, () => void]] : []),
+        ...(links.whatsapp ? [['WhatsApp', 'open', () => window.open(`https://wa.me/${links.whatsapp}`)] as [string, string, () => void]] : []),
       ];
       let shown = cmds;
       let sel = 0;

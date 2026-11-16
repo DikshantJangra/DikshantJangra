@@ -7,10 +7,10 @@ export const site = {
   short: 'DJ',
   age: 21,
   location: 'Haryana, India',
-  oneLiner: 'I build production software end to end: AI agents, backends and the apps on top.',
+  oneLiner: 'Builds production software end to end: AI agents, backends and the apps on top.',
   title: 'Dikshant Jangra (DJ) — Software engineer building AI agents and production systems',
   description:
-    'Dikshant Jangra (DJ), 21, software engineer from Haryana, India. 1st place at the Newton School MCP Challenge across 3 campuses and Best Use of Gemma 4 at Hacktoberfest 2026. Builds AI agents, multi-tenant backends and the apps that run on them, in production.',
+    'Dikshant Jangra (DJ), 21, software engineer from Haryana, India. 1st place at the Newton School MCP Challenge across 3 campuses and Best Use of Gemma 4 at Hacktoberfest Hack Day 2026. Qualified for the Smart India Hackathon in 2024, 2025 and 2026. Builds AI agents, multi-tenant backends and the apps that run on them, in production.',
   updated: 'Oct 2026',
   // Live values (pill, building) come from /api/status (KV, set via Telegram); these are the fallbacks.
   available: true,
@@ -42,9 +42,17 @@ export const flags = {
 
 export const proof = [
   '1st place, MCP Challenge across 3 campuses',
-  'Best Use of Gemma 4, #1 at Hacktoberfest 2026',
+  'Best Use of Gemma 4, #1 at Hacktoberfest Hack Day 2026',
   'Hundreds of orders a day in production',
   '24,000-product catalog on ~70 MB RAM',
+];
+
+// Homepage stat strip: n = the figure, t = what it measures.
+export const stats = [
+  { n: '1st', t: 'Newton School MCP Challenge, 3 campuses' },
+  { n: '#1', t: 'Hacktoberfest Hack Day, Best Use of Gemma 4' },
+  { n: '100s', t: 'of orders a day in production' },
+  { n: '24,000', t: 'products on ~70 MB of RAM' },
 ];
 
 export type Tag = 'Building' | 'Client' | 'Live' | 'Open source' | 'Award' | 'Hackathon';
@@ -69,7 +77,7 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     oneLiner: 'A private, offline AI assistant built on Google Gemma: a floating macOS agent and a Python CLI.',
     detail: 'Zero-egress local AI companion. A macOS HUD opened with ⌥+Space, with voice dictation, local semantic memory, Accessibility control and Chrome automation, plus a Python CLI for task planning and repo AST audits. Gemma runs on-device via Ollama, behind three-tier command approvals.',
     bullets: [
-      'Won Best Use of Gemma 4 and finished #1 on campus at Hacktoberfest 2026, scoring 46 points to the next team’s 32, in a 12-hour overnight build',
+      'Won Best Use of Gemma 4 and finished #1 on campus at Hacktoberfest Hack Day 2026, scoring 46 points to the next team’s 32',
       'Built a zero-egress assistant running Gemma locally via Ollama: a macOS HUD with voice dictation, semantic memory and Chrome automation, plus a Python CLI for task planning and repo audits',
       'Added three-tier command approvals, a shell command classifier and blocked access to password fields',
     ],
@@ -108,7 +116,7 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     detail: 'A local-first AI agent for students. One agent loop, built as ports and adapters, serves both a terminal CLI and a Telegram bot, calls tools over MCP and runs on OpenAI, Claude, Gemini or fully offline on Ollama. Ships with npx newtonclaw.',
     bullets: [
       'Won 1st place at the Newton School MCP Challenge across 3 campuses, winning a year of Claude Pro',
-      'Built one agent loop as ports-and-adapters serving a CLI and Telegram bot over MCP, on OpenAI, Claude, Gemini or offline Ollama; shipped as npx newtonclaw',
+      'Built one agent loop serving a CLI and Telegram bot over MCP, on OpenAI, Claude, Gemini or offline Ollama; shipped as npx newtonclaw',
     ],
     tags: ['Award', 'Open source'],
     stack: ['MCP', 'TypeScript', 'Telegraf', 'OpenAI / Ollama', 'Chrome extension'],
@@ -119,7 +127,11 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     icon: '/logos/resolvhome.svg',
     oneLiner: 'Home-services booking platform with an operator console.',
     detail: 'Customer app and admin panel in one Turborepo, sharing a design system and an API client generated from the backend’s OpenAPI spec, so the two can’t drift apart.',
-    tags: ['Live'],
+    bullets: [
+      'Built a home-services booking platform: a customer app and an operator console in one Turborepo',
+      'Shared one design system and an API client generated from the backend’s OpenAPI spec, so the two apps cannot drift apart',
+    ],
+    tags: ['Client', 'Live'],
     stack: ['Next.js', 'React 19', 'Tailwind v4', 'TanStack Query', 'Zustand'],
   },
   {
@@ -127,6 +139,10 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     url: 'https://github.com/DikshantJangra/BlazeResolver',
     oneLiner: 'Customer bug reports in. Reviewed pull requests out.',
     detail: 'An open-source agent harness that turns a customer’s bug report into a reviewed pull request. It runs on your own GitHub Actions, with no server to host, and is published on npm.',
+    bullets: [
+      'Built an open-source agent harness that turns a customer’s bug report into a reviewed pull request',
+      'Runs on your own GitHub Actions with no server to host; published on npm',
+    ],
     tags: ['Open source'],
     stack: ['TypeScript', 'GitHub Actions', 'LLM agents'],
   },
@@ -135,6 +151,10 @@ export const work: { name: string; url: string; icon?: string; oneLiner: string;
     url: '', // TODO: repo link
     oneLiner: 'Move WhatsApp chats between Android and iPhone.',
     detail: 'Open-source, two-way migration of WhatsApp history by patching Android and iOS device backups. Built it because nothing free worked.',
+    bullets: [
+      'Built open-source, two-way migration of WhatsApp history between Android and iPhone by patching device backups',
+      'Built it because no free alternative worked',
+    ],
     tags: ['Open source'],
     stack: ['Python', 'libimobiledevice'],
   },
@@ -147,7 +167,7 @@ export const lab: { name: string; text: string; tag: Tag }[] = [
   { name: 'BLUE GATE AI', text: 'Smart-money-concepts indicator and Expert Advisor for MetaTrader 5.', tag: 'Client' },
 ];
 
-// What I work on. The page, the MCP server and Ask DJ read this.
+// Focus areas. The page, the MCP server and Ask DJ read this.
 export const services = [
   {
     name: 'AI agents and MCP',
@@ -188,8 +208,18 @@ export const education: { role: string; org: string; dates: string; cgpa?: strin
 ];
 
 export const awards = [
-  { role: 'Best Use of Gemma 4 — Hacktoberfest Hack Day', org: 'Jinn', note: '#1 on campus, 46 points to the next best 32 · 12-hour overnight build', dates: 'Oct 2026', url: 'https://github.com/DikshantJangra/Jinn' },
+  { role: 'Best Use of Gemma 4 — Hacktoberfest Hack Day', org: 'Jinn', note: 'Sonipat x Rishihood University · #1 on campus, 46 points to the next best 32', dates: 'Oct 2026', url: 'https://github.com/DikshantJangra/Jinn' },
   { role: '1st place — Newton School MCP Challenge', org: 'NewtonClaw', note: '1st of 3 winners, 3 campuses · won a year of Claude Pro', dates: 'Apr 2026', url: links.newtonclaw },
+  { role: 'Qualifier — Smart India Hackathon', org: '', note: 'Qualified in 2024, 2025 and 2026', dates: '2024–2026', url: 'https://www.sih.gov.in' },
+  { role: 'Participant — NSTakathon', org: '', note: 'Participant', dates: '', url: '' },
+];
+
+// Resume "Hackathons" section. Outcomes only where earned; no promises about this year's results.
+export const hackathons = [
+  { name: 'Hacktoberfest Hack Day, Sonipat x Rishihood University', note: 'Best Use of Gemma 4 with Jinn, #1 on campus', dates: 'Oct 2026' },
+  { name: 'Smart India Hackathon', note: 'Qualified in 2024, 2025 and 2026', dates: '2024–2026' },
+  { name: 'NSTakathon', note: 'Participant', dates: '' },
+  { name: 'Major hackathons', note: 'Participated in 3, qualified for round two in one', dates: '' },
 ];
 
 export const internshipLine = 'Open to SDE and AI engineering internships from January 2027.';
@@ -214,7 +244,7 @@ ${l(work.map((w) => `${w.name} [${w.tags.join(', ')}]: ${w.oneLiner} ${w.detail}
 ## Lab
 ${l(lab.map((p) => `${p.name} [${p.tag}]: ${p.text}`))}
 
-## What I work on
+## Focus areas
 ${l(services.map((s) => `${s.name}: ${s.text}`))}
 
 ## Experience
@@ -224,7 +254,7 @@ ${l(experience.map((e) => `${e.role}, ${e.org} (${e.dates})`))}
 ${l(education.map((e) => `${e.role}, ${e.org} (${e.dates})`))}
 
 ## Awards
-${l(awards.map((a) => `${a.role} — ${a.org}. ${a.note}.`))}
+${l(awards.map((a) => `${[a.role, a.org].filter(Boolean).join(' — ')}. ${a.note}.`))}
 
 ## Contact
 ${l([`Book a call: ${links.cal}`, `Email: ${links.email}`, `GitHub: ${links.github}`, `LinkedIn: ${links.linkedin}`, `MCP server: ${site.url}/mcp`])}
