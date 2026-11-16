@@ -125,7 +125,7 @@ function renderMembers(d: Data) {
 function offline() {
   app.replaceChildren(
     appbar(document.createTextNode('Direct line')),
-    el('div', { className: 'center' }, svg(I.lock, 'verified'), el('h2', {}, 'The line opens soon.'), el('p', {}, 'Email hello@dikshantjangra.me in the meantime.'), el('a', { className: 'btn text', href: '/' }, 'Back to the site')),
+    el('div', { className: 'center' }, svg(I.lock, 'verified'), el('h2', {}, 'The line opens soon.'), el('p', {}, 'Email contact@dikshantjangra.me in the meantime.'), el('a', { className: 'btn text', href: '/' }, 'Back to the site')),
   );
 }
 

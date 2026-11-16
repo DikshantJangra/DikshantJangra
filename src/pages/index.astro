@@ -5,7 +5,7 @@ import '../styles.css';
 import Mark from '../Mark.astro';
 import Role from '../Role.astro';
 import { fetchActivity, gridHTML, todayLine, type Activity } from '../github';
-import { site, links, flags, stats, work, lab, services, experience, education, awards, internshipLine, now } from '../data';
+import { site, links, flags, stats, work, lab, services, experience, education, awards, competitions, internshipLine, now } from '../data';
 
 const fav = (url: string) => `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
 const mail = `mailto:${links.email}`;
@@ -113,9 +113,12 @@ const jsonLd = {
         <p class="mono muted">DJ</p>
         <h1>D<span class="i-dot">i<span class="rig" aria-hidden="true"><span class="tittle"></span></span></span>kshant Jangra<svg class="verified" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12z" /><path class="tick" d="M7.5 12.2l3 3 6-6.2" /></svg></h1>
         <p class="role">{site.age} · Software engineer · {site.location}</p>
-        <p>Builds <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top, then runs it. The stack behind <a class="fav" href="https://blazeeats.in"><img src="/logos/blazeeats.png" alt="" width="14" height="14" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
+        <p>Builds <span class="hl">production software end to end</span>: the database, the API, the apps and the AI layer on top, then runs it. The stack behind <a class="fav" href="https://blazeeats.in"><img class="zoom" src="/logos/blazeeats.png" alt="" width="27" height="20" />BlazeEats</a> takes hundreds of orders a day across its storefront, kitchen, rider and HQ apps.</p>
         <p>
-          Won the <span class="hl">Newton School MCP Challenge</span>, <span class="hl thin">1st among 3 winners across 3 campuses</span>, with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. <span class="hl mark">The prize: a year of <a class="fav" href="https://claude.ai"><img src="/logos/claude.png" alt="" width="14" height="14" />Claude Pro</a></span>. Also took <span class="hl thin">Best Use of Gemma 4 at Hacktoberfest Hack Day 2026</span> with <a class="fav" href="https://github.com/DikshantJangra/Jinn">Jinn</a>, a private offline AI assistant. B.Tech in CS &amp; AI at Newton School of Technology.
+          Won the <span class="hl">Newton School MCP Challenge</span>, <span class="hl thin">1st among 3 winners across 3 campuses</span>, with <a class="fav" href={links.newtonclaw}><img src={fav(links.newtonclaw)} alt="" width="14" height="14" />NewtonClaw</a>, an AI agent that runs one brain behind a CLI and a Telegram bot. <span class="hl mark">The prize: a year of <a class="fav" href="https://claude.ai"><img src="/logos/claude.png" alt="" width="14" height="14" />Claude Pro</a></span>.
+        </p>
+        <p>
+          Also took <a class="fav" href="https://hacktoberfest.com"><img class="wide" src="/logos/hacktoberfest.png" alt="" width="33" height="16" /></a><span class="hl thin">Best Use of Gemma 4 at Hacktoberfest Hack Day 2026</span> with <a class="fav" href="https://github.com/DikshantJangra/Jinn">Jinn</a>, a private offline AI assistant. B.Tech in CS &amp; AI at Newton School of Technology.
         </p>
         <div class="buttons">
           <a class="btn btn-primary" href={links.resume}>View resume</a>
@@ -135,8 +138,10 @@ const jsonLd = {
         <p class="label sub-label">Education &amp; awards</p>
         <ul class="roles">
           {education.map((e) => <li><Role name={e.org.split(',')[0]} sub={e.role} when={e.dates} url="https://www.newtonschool.co" /></li>)}
-          {awards.map((a) => <li><Role name={a.role.split(' — ')[1] ?? a.role} sub={a.note} when={a.dates} url={a.url} icon="/stickers/trophy.png" /></li>)}
+          {awards.map((a) => <li><Role name={a.role.split(' — ')[1] ?? a.role} sub={a.note} when={a.dates} url={a.url} icon={a.icon ?? "/stickers/trophy.png"} /></li>)}
         </ul>
+        <p class="label sub-label">Also competed in</p>
+        <div class="chips">{competitions.map((c) => <span class="chip">{c}</span>)}</div>
         <p class="meta" style="margin-top:16px">{internshipLine} <a href={links.resume}>Resume →</a></p>
       </section>
 
@@ -148,7 +153,7 @@ const jsonLd = {
             <li>
               <details class="proj" name="proj" open={i === 0}>
                 <summary>
-                  <span class="logo" aria-hidden="true">{w.url ? <img src={w.icon ?? fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
+                  <span class="logo" aria-hidden="true">{w.url ? <img class:list={[w.icon?.includes('blazeeats') && 'zoom']} src={w.icon ?? fav(w.url)} alt="" width="18" height="18" loading="lazy" /> : w.name[0]}</span>
                   <div>
                     <div class="row-head"><strong>{w.name}</strong>{w.tags.map((t) => <span class:list={['tag', t]}>{t}</span>)}</div>
                     <p>{w.oneLiner}</p>

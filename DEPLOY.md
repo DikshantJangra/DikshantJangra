@@ -19,7 +19,7 @@ After changing the avatar, regenerate `public/og.png` (1200×630).
 1. `wrangler login`
 2. `wrangler kv namespace create STATUS` and `wrangler d1 create guestbook` → paste the ids into `wrangler.toml` and uncomment those blocks (until then status uses defaults, Ask DJ/demo are off, guestbook is empty)
 3. `npm run deploy` (or push to main; Workers Builds deploys it)
-4. Worker → Settings → Domains → `dikshantjangra.me`; forward `hello@` (Namecheap email forwarding or Cloudflare Email Routing); Web Analytics on.
+4. Worker → Settings → Domains → `dikshantjangra.me`; mail is Cloudflare Email Routing: `contact@`, `hello@`, `hello1@`, `me@`, `dj@` forward to the owner's inbox; Web Analytics on.
 5. Workers AI is bound as `AI` in `wrangler.toml` (free tier; Ask DJ caps itself at 10/IP and 80/day).
 
 ## Telegram status bot

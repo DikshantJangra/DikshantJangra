@@ -20,7 +20,7 @@ export const site = {
 
 export const links = {
   cal: 'https://cal.com/dikshantjangra',
-  email: 'hello@dikshantjangra.me', // TODO: forward hello@ (MX is Namecheap email forwarding)
+  email: 'contact@dikshantjangra.me', // Cloudflare Email Routing; also hello@, hello1@, me@, dj@ forward to the owner's inbox
   whatsapp: '', // TODO: digits only with country code, e.g. 919876543210
   resume: '/resume', // printable page built from this file; swap for '/resume.pdf' if you prefer a PDF
   github: 'https://github.com/DikshantJangra',
@@ -207,10 +207,12 @@ export const education: { role: string; org: string; dates: string; cgpa?: strin
 ];
 
 export const awards = [
-  { role: 'Best Use of Gemma 4 — Hacktoberfest Hack Day', org: 'Jinn', note: 'Sonipat x Rishihood University · #1 on campus, 46 points to the next best 32', dates: 'Oct 2026', url: 'https://github.com/DikshantJangra/Jinn' },
+  { role: 'Best Use of Gemma 4 — Hacktoberfest Hack Day', org: 'Jinn', note: 'Sonipat x Rishihood University · #1 on campus, 46 points to the next best 32', dates: 'Oct 2026', url: 'https://github.com/DikshantJangra/Jinn', icon: '/logos/hacktoberfest.png' },
   { role: '1st place — Newton School MCP Challenge', org: 'NewtonClaw', note: '1st of 3 winners, 3 campuses · won a year of Claude Pro', dates: 'Apr 2026', url: links.newtonclaw },
-  { role: 'Qualifier — Smart India Hackathon', org: '', note: 'Qualified in 2024, 2025 and 2026', dates: '2024–2026', url: 'https://www.sih.gov.in' },
 ];
+
+// Other competitions entered (names only; wins live in awards).
+export const competitions = ['Smart India Hackathon 2024', 'Smart India Hackathon 2025', 'Smart India Hackathon 2026', 'NSTakathon'];
 
 export const internshipLine = 'Open to SDE and AI engineering internships from January 2027.';
 
@@ -245,6 +247,9 @@ ${l(education.map((e) => `${e.role}, ${e.org} (${e.dates})`))}
 
 ## Awards
 ${l(awards.map((a) => `${[a.role, a.org].filter(Boolean).join(' — ')}. ${a.note}.`))}
+
+## Also competed in
+${l(competitions)}
 
 ## Contact
 ${l([`Book a call: ${links.cal}`, `Email: ${links.email}`, `GitHub: ${links.github}`, `LinkedIn: ${links.linkedin}`, `MCP server: ${site.url}/mcp`])}
